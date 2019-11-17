@@ -1,6 +1,7 @@
 #include <iostream>
 #include "./lib/LSH.h"
-
+#include "./lib/Initialization.h"
+#include "./lib/RandomSelection.h"
 #include <chrono>
 #include <algorithm>
 using namespace std;
@@ -14,6 +15,11 @@ int main(int args, char **argv) {
     Parser parser;
     parser.parseFileInput(argv[1]);
     VectorArray *vectorArray = parser.readFileInput(argv[1]);
+
+    // for (int i = 0; i < vectorArray->getVectorArraySize(); i++) {
+    //     Vector *v = vectorArray->getVectorArrayItem(i);
+    //     v->printVector();
+    // }
     
 
 
@@ -61,8 +67,17 @@ int main(int args, char **argv) {
     //     lsh.getNNBonus(vectorArray2->getVectorArrayItem(i), atoi(argv[5]));
     // }
 
-    delete vectorArray;
+    // delete vectorArray;
     // delete vectorArray2;
-    return 0;
+    // return 0;
 
+    // RandomSelection sel(3);
+    // Initialization *initial = &sel;
+    // initial->getClusterSize();
+
+
+    Initialization * initial = new RandomSelection(3, vectorArray);
+    // initial->getClusterSize();
+    delete initial;
+    delete vectorArray;
 }

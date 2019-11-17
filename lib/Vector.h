@@ -10,7 +10,7 @@ using namespace std;
 class Vector {
     private:
         string id;
-        double *dimension;
+        long double *dimension;
         int size;
         
 
@@ -18,13 +18,14 @@ class Vector {
     public:
         Vector(string id, int size);
         ~Vector(void);
-        void initVector(double *dimension);
+        void initVector(long double *dimension);
         void printVector(void);
         int getVectorDimension(void);
-        double getVectorItem(int index);
+        long double getVectorItem(int index);
         string getVectorID(void);
         void setG(unsigned int g);
         unsigned int getG(int index);
+        long double * getVectorCoordinates();
 };
 
 #endif //VECTOR

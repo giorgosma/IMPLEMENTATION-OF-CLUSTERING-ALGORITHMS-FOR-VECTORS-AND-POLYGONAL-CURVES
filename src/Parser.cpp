@@ -17,7 +17,7 @@ void Parser::parseFileInput(string fileName) {
     getline(infile, str);
     while (!infile.eof()) {
         getline(infile, str);
-        cout << str << endl << endl;
+        // cout << str << endl << endl;
         if (vectorArraySize == 0)
             for(int i = 0; i < static_cast<int>(str.length()); i++)
                 if(str[i] == '	') 
@@ -39,7 +39,7 @@ string Parser::getFileItem(string str, int itemStart) {
 }
 
 VectorArray * Parser::readFileInput(string fileName) {
-    double *dimension = new double[this->dimensionSize];
+    long double *dimension = new long double[this->dimensionSize];
     bool flagId = true;
     int j = 0;
     int itemStart = 0;
@@ -61,7 +61,7 @@ VectorArray * Parser::readFileInput(string fileName) {
             }
             else {
                 vectorNumber = this->getFileItem(str, itemStart);
-                dimension[i-1] = stoi(vectorNumber);
+                dimension[i-1] = stod(vectorNumber);
                 itemStart += vectorNumber.length() + 1;
                 vectorNumber.clear();
             }

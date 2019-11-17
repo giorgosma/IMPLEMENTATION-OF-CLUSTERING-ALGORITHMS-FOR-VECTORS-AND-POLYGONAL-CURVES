@@ -1,8 +1,8 @@
 CC = g++
 CFLAGS  = -g -Wall -std=c++11
-SOURCE	= ./src/VectorArray.cpp ./src/Vector.cpp ./src/Parser.cpp ./src/Distance.cpp ./src/ExactNN.cpp ./src/Manhattan.cpp ./src/LSH.cpp ./src/HashTable.cpp ./src/HashFunction.cpp ./src/HyperCube.cpp ./src/Grids.cpp ./src/DTW.cpp ./src/CurvesParser.cpp main.cpp
-HEADER  = ./lib/VectorArray.h ./lib/Vector.h ./lib/Parser.h ./lib/Distance.h ./lib/ExactNN.h ./lib/Manhattan.h ./lib/LSH.h ./lib/HashTable.h ./lib/HashFunction.h ./lib/HyperCube.h ./lib/Grids.h ./lib/DTW.h ./lib/CurvesParser.h
-OBJS 	= VectorArray.o Vector.o Parser.o Distance.o ExactNN.o Manhattan.o LSH.o HashTable.o HashFunction.o HyperCube.o Grids.o DTW.o CurvesParser.o main.o 
+SOURCE	= ./src/VectorArray.cpp ./src/Vector.cpp ./src/Parser.cpp ./src/Distance.cpp ./src/ExactNN.cpp ./src/Manhattan.cpp ./src/LSH.cpp ./src/HashTable.cpp ./src/HashFunction.cpp ./src/HyperCube.cpp ./src/Grids.cpp ./src/DTW.cpp ./src/CurvesParser.cpp ./src/Initialization.cpp ./src/RandomSelection.cpp ./src/Cluster.cpp main.cpp
+HEADER  = ./lib/VectorArray.h ./lib/Vector.h ./lib/Parser.h ./lib/Distance.h ./lib/ExactNN.h ./lib/Manhattan.h ./lib/LSH.h ./lib/HashTable.h ./lib/HashFunction.h ./lib/HyperCube.h ./lib/Grids.h ./lib/DTW.h ./lib/CurvesParser.h ./lib/Initialization.h ./lib/RandomSelection.h ./lib/Cluster.h
+OBJS 	= VectorArray.o Vector.o Parser.o Distance.o ExactNN.o Manhattan.o LSH.o HashTable.o HashFunction.o HyperCube.o Grids.o DTW.o CurvesParser.o Initialization.o RandomSelection.o Cluster.o main.o 
 # typing 'make' will invoke the first target entry in the file 
 # (in this case the default target entry)
 # you can name this target entry anything, but "default" or "all"
@@ -56,6 +56,15 @@ DTW.o:		./src/DTW.cpp $(HEADER)
 
 CurvesParser.o:		./src/CurvesParser.cpp $(HEADER)
 	$(CC) $(CFLAGS) -c ./src/CurvesParser.cpp
+
+Initialization.o:	./src/Initialization.cpp $(HEADER)
+	$(CC) $(CFLAGS) -c ./src/Initialization.cpp
+
+RandomSelection.o:	./src/RandomSelection.cpp $(HEADER)
+	$(CC) $(CFLAGS) -c ./src/RandomSelection.cpp
+
+Cluster.o:	./src/Cluster.cpp $(HEADER)
+	$(CC) $(CFLAGS) -c ./src/Cluster.cpp
 
 count:
 	wc $(SOURCE) $(HEADER)
