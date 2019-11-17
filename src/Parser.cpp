@@ -26,7 +26,7 @@ void Parser::parseFileInput(string fileName) {
     }
     infile.close();
     this->vectorArraySize--;
-    this->dimensionSize--;
+    // this->dimensionSize--;
     cout << "Number of points: " << this->vectorArraySize << endl;
     cout << "Dimension: " << this->dimensionSize << endl;
 }
@@ -51,7 +51,7 @@ VectorArray * Parser::readFileInput(string fileName) {
     while (j < this->vectorArraySize) {
         getline(infile, str);
         Vector *vector;
-        for(int i = 0; i <= this->dimensionSize; i++) {
+        for(int i = 0; i <= this->dimensionSize - 1; i++) {
             if (flagId) {
                 id = this->getFileItem(str, itemStart);
                 vector = new Vector(id, this->dimensionSize);
@@ -66,6 +66,10 @@ VectorArray * Parser::readFileInput(string fileName) {
                 vectorNumber.clear();
             }
         }
+        string item;
+        for(int i = itemStart; i<(int)str.length(); i++)
+            item += str[i];
+        dimension[this->dimensionSize - 1] = stod(item);
         vector->initVector(dimension);
         //vector->printVector();
         vectorArray->addVectorToArray(vector, j);
