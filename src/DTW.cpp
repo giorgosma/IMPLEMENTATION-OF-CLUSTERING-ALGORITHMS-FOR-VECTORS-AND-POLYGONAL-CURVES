@@ -6,7 +6,7 @@ DTW::DTW(void) {
 DTW::~DTW(void) {
 }
 
-double DTW::calcDistance(vector<double> * p, vector<double> * q){
+double DTW::calculateDistance(vector<double> * p, vector<double> * q){
     this->array.clear();
     this->distance = this->C(*p, *q, p->size()/2, q->size()/2);
     return this->distance;

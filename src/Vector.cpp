@@ -2,7 +2,7 @@
 
 Vector::Vector(string id, int size) {
     this->size = size;
-    this->dimension = new long double[size];
+    this->dimension = new double[size];
     this->id = id;
     //this->g = -1;
     //cout << "Vector is being created with id: " << this->id  << endl;
@@ -13,7 +13,7 @@ Vector::~Vector(void) {
     delete[] this->dimension;
 }
 
-void Vector::initVector(long double *dimension) {
+void Vector::initVector(double *dimension) {
     for (int i = 0; i < this->size; i++) {
         this->dimension[i] = dimension[i];
     }
@@ -30,11 +30,11 @@ int Vector::getVectorDimension(void) {
     return this->size;
 }
 
-long double Vector::getVectorItem(int index) {
+double Vector::getVectorItem(int index) {
     return this->dimension[index];
 }
 
-long double * Vector::getVectorCoordinates() {
+double * Vector::getVectorCoordinates() {
     return this->dimension;
 }
 

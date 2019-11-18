@@ -5,11 +5,12 @@
 #include <chrono>
 #include <iterator> 
 #include <unordered_map> 
+#include "Distance.h"
 
 using namespace std;
 using namespace std::chrono;
 
-class DTW {
+class DTW : public Distance{
     private:
         double distance;
         unordered_map<string, double> array;
@@ -21,5 +22,5 @@ class DTW {
         double C(vector<double> p, vector<double> q, int i, int j);
         double getDTW(void);
         vector<double>  padding(vector<double> smallCurve, int bigSize);
-        double calcDistance(vector<double> * p, vector<double> * q);
+        double calculateDistance(vector<double> * p, vector<double> * q);
 };

@@ -39,7 +39,7 @@ string Parser::getFileItem(string str, int itemStart) {
 }
 
 VectorArray * Parser::readFileInput(string fileName) {
-    long double *dimension = new long double[this->dimensionSize];
+    double *dimension = new double[this->dimensionSize];
     bool flagId = true;
     int j = 0;
     int itemStart = 0;

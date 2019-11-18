@@ -21,7 +21,7 @@ class Cluster {
     public:
         Cluster(void);
         ~Cluster(void);
-        void initCluster(string id, int size, long double *dimension);
+        void initCluster(string id, int size, double *dimension);
         void printClusterInfo(void);
 };
 

@@ -13,15 +13,16 @@ Manhattan::~Manhattan(void) {
     // cout << "Manhattan is being deleted" << endl;
 }
 
-void Manhattan::calculateDistance(Vector *p, Vector *q) {   // Maybe its going to be killed
+double Manhattan::calculateDistance(Vector *p, Vector *q) {   // Maybe its going to be killed
     // this->distance = sum ( |p->x_I - q->x_I|)
     this->distance = 0;
     for (int i = 0; i < p->getVectorDimension(); i++) {
         this->distance += abs(p->getVectorItem(i) - q->getVectorItem(i));
     }
+    return this->distance;
 }
 
-int Manhattan::getManhattan(void) {
+double Manhattan::getManhattan(void) {
     return this->distance;
 }
 

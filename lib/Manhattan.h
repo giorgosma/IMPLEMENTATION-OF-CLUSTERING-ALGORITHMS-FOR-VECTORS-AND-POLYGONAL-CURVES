@@ -4,18 +4,19 @@
 #include <iostream>
 #include <cmath>
 #include "VectorArray.h"
+#include "Distance.h"
 
 using namespace std;
 
-class Manhattan {
+class Manhattan  : public Distance{
     private:
-        int distance;
+        double distance;
     
     public:
         Manhattan(Vector *p, Vector *q);
         ~Manhattan(void);
-        void calculateDistance(Vector *p, Vector *q);
-        int getManhattan(void);
+        double calculateDistance(Vector *p, Vector *q);
+        double getManhattan(void);
 };
 
 #endif //MANHATTAN

@@ -2,6 +2,7 @@
 #include "./lib/LSH.h"
 #include "./lib/Initialization.h"
 #include "./lib/RandomSelection.h"
+#include "./lib/Distance.h"
 #include <chrono>
 #include <algorithm>
 using namespace std;
@@ -77,7 +78,13 @@ int main(int args, char **argv) {
 
 
     Initialization * initial = new RandomSelection(3, vectorArray);
+
+
+    Distance * distance = new Manhattan(vectorArray->getVectorArrayItem(0), vectorArray->getVectorArrayItem(1));
+    cout << distance->calculateDistance(vectorArray->getVectorArrayItem(0), vectorArray->getVectorArrayItem(1)) << endl;
+    delete distance;
     // initial->getClusterSize();
     delete initial;
     delete vectorArray;
+
 }

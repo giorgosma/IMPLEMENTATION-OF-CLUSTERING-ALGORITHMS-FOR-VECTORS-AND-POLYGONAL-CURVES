@@ -10,7 +10,7 @@ Cluster::~Cluster(void) {
     delete this->clusterCoordinates;
 }
 
-void Cluster::initCluster(string id, int size, long double *dimension){
+void Cluster::initCluster(string id, int size, double *dimension){
     // this->clusterId = id;
     this->clusterCoordinates = new Vector(id, size);
     this->clusterCoordinates->initVector(dimension);
