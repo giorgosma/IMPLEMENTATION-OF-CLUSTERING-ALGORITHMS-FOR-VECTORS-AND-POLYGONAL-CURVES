@@ -1,5 +1,8 @@
 #include "../lib/Manhattan.h"
 
+Manhattan::Manhattan() {
+}
+
 Manhattan::Manhattan(Vector *p, Vector *q) {
     // cout << "Manhattan is being created" << endl;
     //this->distance = -1;

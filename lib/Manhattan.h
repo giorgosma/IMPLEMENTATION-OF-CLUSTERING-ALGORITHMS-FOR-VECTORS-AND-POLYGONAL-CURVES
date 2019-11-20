@@ -13,6 +13,7 @@ class Manhattan  : public Distance{
         double distance;
     
     public:
+        Manhattan();
         Manhattan(Vector *p, Vector *q);
         ~Manhattan(void);
         double calculateDistance(Vector *p, Vector *q);
