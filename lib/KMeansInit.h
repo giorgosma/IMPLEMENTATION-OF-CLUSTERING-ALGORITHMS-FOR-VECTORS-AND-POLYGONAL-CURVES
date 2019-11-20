@@ -17,6 +17,7 @@ class KMeansInit : public Initialization{
 
     public:
         KMeansInit(int K, VectorArray *vectorArray);
+        KMeansInit(int K, VectorArray *vectorArray, Distance * distanceCalculator);
         ~KMeansInit(void);
 
         // void getClusterSize(void);
