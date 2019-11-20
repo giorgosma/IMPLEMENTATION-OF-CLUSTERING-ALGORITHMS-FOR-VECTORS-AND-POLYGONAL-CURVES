@@ -19,17 +19,20 @@ int main(int args, char **argv) {
     parser.parseFileInput(argv[1]);
     VectorArray *vectorArray = parser.readFileInput(argv[1]);
 
+    int K = 5;
+
     Distance * manhattan = new Manhattan();
 
-    // Initialization * initial = new KMeansInit(3, vectorArray);
-    Initialization * initial = new KMeansInit(3, vectorArray, manhattan);
+    // Initialization * initial = new KMeansInit(K, vectorArray);
+    Initialization * initial = new KMeansInit(K, vectorArray, manhattan);
 
-    // for(int i=0; i<3; i++){
-    //     for(int j=0; j<3; j++){
-    //         if(i==j) continue;
-    //         cout << "dist(" << i << ", " << j << "): " << manhattan->calculateDistance(initial->getClusterItem(i), initial->getClusterItem(j)) << endl;
-    //     }
-    // }
+    // Print distances
+    for(int i=0; i<K; i++){
+        for(int j=0; j<K; j++){
+            if(i>=j) continue;
+            cout << "dist(" << i << ", " << j << "): " << manhattan->calculateDistance(initial->getClusterItem(i)->getCentroid(), initial->getClusterItem(j)->getCentroid()) << endl;
+        }
+    }
 
     delete manhattan;
     delete initial;

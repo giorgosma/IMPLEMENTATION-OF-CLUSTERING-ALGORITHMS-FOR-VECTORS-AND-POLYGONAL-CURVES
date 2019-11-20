@@ -124,13 +124,6 @@ KMeansInit::KMeansInit(int K, VectorArray *vectorArray) : Initialization(K) {
         delete distances;
         delete partial;
     }
-    
-    cout << "Number of points after choosing centroids: " << points->size() << endl;
-    cout << "KMeans initial centroids are: " << endl;
-    for(int i=0; i<(int)centroids->size(); i++){
-        centroids->at(i)->printVector();
-        cout << endl;
-    }
 
     for(int i=0; i<(int)centroids->size(); i++){
         this->getClusterItem(i)->initCluster(centroids->at(i)->getVectorID(), centroids->at(i)->getVectorDimension(), centroids->at(i)->getVectorCoordinates());
@@ -243,8 +236,8 @@ KMeansInit::KMeansInit(int K, VectorArray *vectorArray, Distance * distanceCalcu
         //   centroid-index = partial-sums.length - 1
         unsigned seed = chrono::system_clock::now().time_since_epoch().count();
         default_random_engine generator (seed);
-        uniform_int_distribution<int> distribution(0, partial->at(partial->size()-1));
-        int x = distribution(generator);
+        uniform_int_distribution<unsigned long> distribution(0, partial->at(partial->size()-1));
+        unsigned long x = distribution(generator);
         distribution.reset();
 
         int centroid_index = -1;
@@ -267,13 +260,6 @@ KMeansInit::KMeansInit(int K, VectorArray *vectorArray, Distance * distanceCalcu
         delete distances;
         delete partial;
     }
-    
-    cout << "Number of points after choosing centroids: " << points->size() << endl;
-    cout << "KMeans initial centroids are: " << endl;
-    for(int i=0; i<(int)centroids->size(); i++){
-        centroids->at(i)->printVector();
-        cout << endl;
-    }
 
     for(int i=0; i<(int)centroids->size(); i++){
         this->getClusterItem(i)->initCluster(centroids->at(i)->getVectorID(), centroids->at(i)->getVectorDimension(), centroids->at(i)->getVectorCoordinates());
@@ -285,7 +271,6 @@ KMeansInit::KMeansInit(int K, VectorArray *vectorArray, Distance * distanceCalcu
 
     delete centroids;
     delete points;
-    delete distanceCalculator;
 }
 
 KMeansInit::~KMeansInit(void) {

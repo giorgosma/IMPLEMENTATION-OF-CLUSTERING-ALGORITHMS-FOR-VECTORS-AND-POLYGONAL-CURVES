@@ -15,7 +15,7 @@ using namespace std::chrono;
 class Cluster {
     private:
         // string clusterId;
-        Vector *clusterCoordinates;
+        Vector *centroid;
 
         vector<Vector *> clusterItems;
     public:
@@ -23,6 +23,7 @@ class Cluster {
         ~Cluster(void);
         void initCluster(string id, int size, double *dimension);
         void printClusterInfo(void);
+        Vector * getCentroid(void);
 };
 
 #endif //CLUSTER

@@ -5,19 +5,23 @@ Cluster::Cluster(void) {
 }
 
 Cluster::~Cluster(void) {
-    // delete clusterCoordinates;
+    // delete centroid;
     cout << "Cluster is being deleted" << endl;
-    delete this->clusterCoordinates;
+    delete this->centroid;
 }
 
 void Cluster::initCluster(string id, int size, double *dimension){
     // this->clusterId = id;
-    this->clusterCoordinates = new Vector(id, size);
-    this->clusterCoordinates->initVector(dimension);
+    this->centroid = new Vector(id, size);
+    this->centroid->initVector(dimension);
 
 }
 
 void Cluster::printClusterInfo(void) {
     cout << endl << "Cluster Info:" << endl;
-    this->clusterCoordinates->printVector();
+    this->centroid->printVector();
+}
+
+Vector * Cluster::getCentroid(void){
+    return this->centroid;
 }
