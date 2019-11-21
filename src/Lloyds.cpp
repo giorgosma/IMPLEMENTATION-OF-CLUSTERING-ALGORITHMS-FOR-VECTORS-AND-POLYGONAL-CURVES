@@ -20,9 +20,12 @@ void Lloyds::setupAssignment(Initialization * init, VectorArray * vectors) {
         double minDist = distance->calculateDistance(vectors->getVectorArrayItem(i), init->getClusterItem(0)->getCentroid());
         int indexCluster = 0;
         for (int j = 1; j < init->getClusterSize(); j++) {          // for each centroid - cluster
-            if (minDist > distance->calculateDistance(vectors->getVectorArrayItem(i), init->getClusterItem(j)->getCentroid()))
+            double newDist = distance->calculateDistance(vectors->getVectorArrayItem(i), (init->getClusterItem(j))->getCentroid());
+            if (minDist > newDist){
+                minDist = newDist;
                 indexCluster = j;  
-        }                                                           // store item to the minDist centroid - cluster
+            }
+        }                                                         // store item to the minDist centroid - cluster
         init->getClusterItem(indexCluster)->addItemToCluster(vectors->getVectorArrayItem(i));
         initCounter++;
     }
