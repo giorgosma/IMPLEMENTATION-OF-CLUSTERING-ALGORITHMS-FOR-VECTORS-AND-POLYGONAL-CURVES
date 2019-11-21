@@ -100,8 +100,8 @@ KMeansInit::KMeansInit(int K, VectorArray *vectorArray) : Initialization(K) {
         //   centroid-index = partial-sums.length - 1
         unsigned seed = chrono::system_clock::now().time_since_epoch().count();
         default_random_engine generator (seed);
-        uniform_int_distribution<int> distribution(0, partial->at(partial->size()-1));
-        int x = distribution(generator);
+        uniform_int_distribution<unsigned long> distribution(0, partial->at(partial->size()-1));
+        unsigned long x = distribution(generator);
         distribution.reset();
 
         int centroid_index = -1;
