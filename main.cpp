@@ -1,12 +1,16 @@
 #include <iostream>
+#include <chrono>
+#include <algorithm>
+
 #include "./lib/LSH.h"
 #include "./lib/Initialization.h"
 #include "./lib/RandomSelection.h"
 #include "./lib/KMeansInit.h"
 #include "./lib/Distance.h"
 #include "./lib/DTW.h"
-#include <chrono>
-#include <algorithm>
+#include "./lib/Assignment.h"
+#include "./lib/Lloyds.h"
+
 using namespace std;
 using namespace std::chrono;
 
@@ -21,21 +25,27 @@ int main(int args, char **argv) {
 
     int K = 5;
 
-    Distance * manhattan = new Manhattan();
+    // Distance * manhattan = new Manhattan();
 
     // Initialization * initial = new KMeansInit(K, vectorArray);
-    Initialization * initial = new KMeansInit(K, vectorArray, manhattan);
+    // Initialization * initial = new KMeansInit(K, vectorArray, manhattan);
 
     // Print distances
-    for(int i=0; i<K; i++){
-        for(int j=0; j<K; j++){
-            if(i>=j) continue;
-            cout << "dist(" << i << ", " << j << "): " << manhattan->calculateDistance(initial->getClusterItem(i)->getCentroid(), initial->getClusterItem(j)->getCentroid()) << endl;
-        }
-    }
+    // for(int i=0; i<K; i++){
+    //     for(int j=0; j<K; j++){
+    //         if(i>=j) continue;
+    //         cout << "dist(" << i << ", " << j << "): " << manhattan->calculateDistance(initial->getClusterItem(i)->getCentroid(), initial->getClusterItem(j)->getCentroid()) << endl;
+    //     }
+    // }
 
-    delete manhattan;
+    // delete manhattan;
+
+    Initialization * initial = new RandomSelection(K, vectorArray);
+    Assignment * assign = new Lloyds();
+    assign->setupAssignment(initial, vectorArray);
+    assign->printClusterItems(initial);
     delete initial;
     delete vectorArray;
+    delete assign;
 
 }

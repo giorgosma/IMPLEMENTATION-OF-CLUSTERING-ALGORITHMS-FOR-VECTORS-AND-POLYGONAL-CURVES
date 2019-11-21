@@ -12,7 +12,7 @@ RandomSelection::RandomSelection(int K, VectorArray *vectorArray) : Initializati
         Cluster * clusterItem = this->getClusterItem(i);
         clusterItem->initCluster(centroid->getVectorID(), centroid->getVectorDimension(), centroid->getVectorCoordinates());
 
-        clusterItem->printClusterInfo();
+        // clusterItem->printClusterInfo();
     }
 }
 

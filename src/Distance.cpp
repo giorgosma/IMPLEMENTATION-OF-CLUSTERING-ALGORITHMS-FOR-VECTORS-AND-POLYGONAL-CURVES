@@ -1,11 +1,11 @@
 #include "../lib/Distance.h"
 
 Distance::Distance(void) {
-    cout << "Object is being created" << endl;
+    cout << "Distance is being created" << endl;
 }
 
 Distance::~Distance(void) {
-    cout << "Object is being deleted" << endl;
+    cout << "Distance is being deleted" << endl;
 }
 
 double Distance::calculateDistance(Vector *p, Vector *q) {

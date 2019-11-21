@@ -24,6 +24,7 @@ class Cluster {
         void initCluster(string id, int size, double *dimension);
         void printClusterInfo(void);
         Vector * getCentroid(void);
+        void addItemToCluster(Vector *item);
 };
 
 #endif //CLUSTER

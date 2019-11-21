@@ -18,10 +18,15 @@ void Cluster::initCluster(string id, int size, double *dimension){
 }
 
 void Cluster::printClusterInfo(void) {
-    cout << endl << "Cluster Info:" << endl;
-    this->centroid->printVector();
+    cout << "Cluster Centroid: " << this->centroid->getVectorID() << endl;
+    // this->centroid->printVector();
+    cout << "   Cluster Size:" << this->clusterItems.size() << endl;
 }
 
 Vector * Cluster::getCentroid(void){
     return this->centroid;
+}
+
+void Cluster::addItemToCluster(Vector *item){
+    this->clusterItems.push_back(item);
 }
