@@ -27,16 +27,31 @@ int main(int args, char **argv) {
 
     // Distance * manhattan = new Manhattan();
 
-    // Initialization * initial = new KMeansInit(K, vectorArray);
+    // // Initialization * initial = new KMeansInit(K, vectorArray);
     // Initialization * initial = new KMeansInit(K, vectorArray, manhattan);
 
-    // Print distances
+    // // Print distances
+    // double max = 0;
+    // double min = 1000000000;
+    // double avg = 0;
+    // double count = 0;
     // for(int i=0; i<K; i++){
     //     for(int j=0; j<K; j++){
     //         if(i>=j) continue;
-    //         cout << "dist(" << i << ", " << j << "): " << manhattan->calculateDistance(initial->getClusterItem(i)->getCentroid(), initial->getClusterItem(j)->getCentroid()) << endl;
+    //         double dist = manhattan->calculateDistance(initial->getClusterItem(i)->getCentroid(), initial->getClusterItem(j)->getCentroid());
+    //         cout << "dist(" << i << ", " << j << "): " << dist << endl;
+
+    //         avg += dist;
+    //         count++;
+    //         if(dist<min) min = dist;
+    //         if(dist>max) max = dist;
     //     }
     // }
+
+    // avg /= count;
+    // cout << "Maximum Distance: " << max << endl;
+    // cout << "Minimum Distance: " << min << endl;
+    // cout << "Average Distance: " << avg << endl;
 
     // delete manhattan;
 
