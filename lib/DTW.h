@@ -1,3 +1,6 @@
+#ifndef DTWD
+#define DTWD
+
 #include <iostream>
 #include <cmath>
 #include "Vector.h"
@@ -23,4 +26,7 @@ class DTW : public Distance{
         double getDTW(void);
         vector<double>  padding(vector<double> smallCurve, int bigSize);
         double calculateDistance(vector<double> * p, vector<double> * q);
+        double calculateDistance(Vector *p, Vector * q);
 };
+
+#endif // DTWD

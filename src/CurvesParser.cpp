@@ -2,6 +2,18 @@
 
 using namespace std;
 
+CurvesParser::CurvesParser(void) {
+    cout << "CurvesParser is being created" << endl;
+}
+
+CurvesParser::~CurvesParser(void) {
+    cout << "CurvesParser is being deleted" << endl;
+    for (int i = 0; i < (int)(this->curves->size()); i++){
+        delete this->curves->at(i);
+    }
+    delete this->curves;
+}
+
 int CurvesParser::countLines(char * fileName){
     string str;
     int count = -1;
@@ -76,17 +88,33 @@ vector<double> * CurvesParser::parseLine(string line){
 }
 
 vector<vector<double> *> * CurvesParser::parseFile(char * fileName){
-    vector<vector<double> *> * curves = new vector<vector<double> *>;
+    // vector<vector<double> *> * curves = new vector<vector<double> *>;
+    this->curves = new vector<vector<double> *>;
     string str;
     ifstream infile;
     infile.open(fileName);
+    getline(infile, str);
+    cout << str << endl;
     while (!infile.eof()) {
         getline(infile, str);
         if(str.length() < 1) break;
 
         vector<double> * points = parseLine(str);
-        curves->push_back(points);
+        (this->curves)->push_back(points);
     }
     infile.close();
-    return curves;
+    return this->curves;
+
+}
+
+VectorArray * CurvesParser::storeCurvesIntoVectorArray(vector<vector<double> *> * curves) {
+    cout << "Curves Size : " << curves->size() << endl;
+    VectorArray *vectorArray = new VectorArray(curves->size());
+    for (int i = 0; i < vectorArray->getVectorArraySize(); i++) {
+        double *array = &(curves->at(i)->at(0));
+        Vector * vector = new Vector(to_string(i), curves->at(i)->size());
+        vector->initVector(array);
+        vectorArray->addVectorToArray(vector, i);
+    }
+    return vectorArray;
 }

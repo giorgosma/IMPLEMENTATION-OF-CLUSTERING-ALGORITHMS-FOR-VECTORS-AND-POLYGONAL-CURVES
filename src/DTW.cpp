@@ -93,6 +93,16 @@ vector<double> DTW::padding(vector<double> smallCurve, int bigSize) {
     return newCurve;
 }
 
+double DTW::calculateDistance(Vector * p, Vector * q) {
+    double * pArray = p->getVectorCoordinates();
+    vector<double> pVector(pArray, pArray + (sizeof(double) * (p->getVectorDimension()) / sizeof(pArray[0])));
+    
+    double * qArray = q->getVectorCoordinates();
+    vector<double> qVector(qArray, qArray + (sizeof(double) * (q->getVectorDimension()) / sizeof(qArray[0])));
+
+    return this->calculateDistance(&pVector, &qVector);
+}
+
 // int main (int args, char **argv) {
 //     vector<double> P;
 //     vector<double> Q;

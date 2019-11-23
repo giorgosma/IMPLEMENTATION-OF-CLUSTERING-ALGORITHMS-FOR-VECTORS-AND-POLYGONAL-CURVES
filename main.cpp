@@ -10,6 +10,7 @@
 #include "./lib/DTW.h"
 #include "./lib/Assignment.h"
 #include "./lib/Lloyds.h"
+#include "./lib/CurvesParser.h"
 
 using namespace std;
 using namespace std::chrono;
@@ -19,9 +20,21 @@ using namespace std::chrono;
 //  1          2       3 4 5
 
 int main(int args, char **argv) {
-    Parser parser;
-    parser.parseFileInput(argv[1]);
-    VectorArray *vectorArray = parser.readFileInput(argv[1]);
+
+    // POINTS
+    // Parser parser;
+    // parser.parseFileInput(argv[1]);
+    // VectorArray *vectorArray = parser.readFileInput(argv[1]);
+
+    // CURVES
+    CurvesParser parser;
+    vector<vector<double> *> * curves = parser.parseFile(argv[1]);
+    VectorArray *vectorArray = parser.storeCurvesIntoVectorArray(curves);
+    Distance * manhattan = new DTW();
+
+    cout << "DIST C " << manhattan->calculateDistance(curves->at(0), curves->at(2)) << endl;
+    cout << "DIST V " << manhattan->calculateDistance(vectorArray->getVectorArrayItem(0), vectorArray->getVectorArrayItem(2)) << endl;
+
 
     int K = 5;
 
@@ -38,14 +51,14 @@ int main(int args, char **argv) {
     //     }
     // }
 
-    // delete manhattan;
+    delete manhattan;
 
-    Initialization * initial = new RandomSelection(K, vectorArray);
-    Assignment * assign = new Lloyds();
-    assign->setupAssignment(initial, vectorArray);
-    assign->printClusterItems(initial);
-    delete initial;
+    // Initialization * initial = new RandomSelection(K, vectorArray);
+    // Assignment * assign = new Lloyds();
+    // assign->setupAssignment(initial, vectorArray);
+    // assign->printClusterItems(initial);
+    // delete initial;
     delete vectorArray;
-    delete assign;
+    // delete assign;
 
 }
