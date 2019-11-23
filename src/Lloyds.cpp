@@ -13,10 +13,10 @@ void Lloyds::setupAssignment(Initialization * init, VectorArray * vectors) {
     int initCounter = 0;
     cout << "VectorArray = " << vectors->getVectorArraySize() << " ClusterSize " << init->getClusterSize() << endl;
     for (int i = 0; i < vectors->getVectorArraySize(); i++) {       // for each vector item
-        if (this->isCentroid(vectors->getVectorArrayItem(i), init)){
-            // cout << "Vector " << vectors->getVectorArrayItem(i)->getVectorID() << endl;
-            continue;
-        }
+        // if (this->isCentroid(vectors->getVectorArrayItem(i), init)){
+        //     // cout << "Vector " << vectors->getVectorArrayItem(i)->getVectorID() << endl;
+        //     continue;
+        // }
         double minDist = distance->calculateDistance(vectors->getVectorArrayItem(i), init->getClusterItem(0)->getCentroid());
         int indexCluster = 0;
         for (int j = 1; j < init->getClusterSize(); j++) {          // for each centroid - cluster
