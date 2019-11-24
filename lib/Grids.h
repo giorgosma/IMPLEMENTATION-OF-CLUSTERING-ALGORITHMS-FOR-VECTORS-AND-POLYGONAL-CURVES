@@ -1,3 +1,6 @@
+#ifndef GRIDS
+#define GRIDS
+
 #include <iostream>
 #include <fstream>
 #include <string>
@@ -23,4 +26,8 @@ class Grids {
         void generateT(double dimensionSize);
         vector<vector<vector<double> *> *> * projectToGrids(vector<vector<double> *> * curves);
         double accessGrid(vector<vector<vector<double> *> *> * grid, int L, int curveID, int p);
+
+        // vector<VectorArray *> * projectToGrids(VectorArray * curves);
 };
+
+#endif //GRIDS

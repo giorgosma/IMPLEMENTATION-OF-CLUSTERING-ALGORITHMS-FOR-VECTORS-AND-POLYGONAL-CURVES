@@ -32,3 +32,7 @@ Vector * VectorArray::getVectorArrayItem(int index) {
 int VectorArray::getVectorArraySize(void) {
     return this->size;
 }
+
+Vector ** VectorArray::getVectorArray(void) {
+    return this->vectorArray;
+}

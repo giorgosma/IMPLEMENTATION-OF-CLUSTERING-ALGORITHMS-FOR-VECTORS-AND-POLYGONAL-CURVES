@@ -25,6 +25,7 @@ LSH::~LSH(void) {
 void LSH::printLSH(void) {
     for (int i = 0; i < this->L; i++) {
         cout << "HT " << i << " " << &((this->LhashTables[i]).at(0)) << endl;
+        this->LhashTables[i].at(0)->print();
     }
 }
 

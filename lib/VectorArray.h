@@ -17,6 +17,7 @@ class VectorArray {
         void printVectorArray(void);
         Vector *getVectorArrayItem(int index);
         int getVectorArraySize(void);
+        Vector ** getVectorArray(void);
 };
 
 #endif //VECTOR_ARRAY

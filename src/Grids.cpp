@@ -81,3 +81,33 @@ vector<vector<vector<double> *> *> * Grids::projectToGrids(vector<vector<double>
 double Grids::accessGrid(vector<vector<vector<double> *> *> * grid, int L, int curveID, int p){
     return grid->at(L)->at(curveID)->at(p);
 }
+
+// vector<VectorArray *> * Grids::projectToGrids(VectorArray * curves) {
+//     vector<VectorArray *> * allGrids = new vector<VectorArray *>;
+
+//     for (int i = 0; i < this->L; i++) {
+//         VectorArray *grid = new VectorArray(curves->getVectorArraySize());
+//         double dt = this->delta * this->t.at(i);
+
+//         for (int j = 0; j < curves->getVectorArraySize(); j++){
+//             // grid->push_back(new vector<double>);
+//             Vector *curve = curves->getVectorArrayItem(j);
+//             double *coordinates = curve->getVectorCoordinates();
+//             for (int k = 0; k < curve->getVectorDimension(); k += 2) {
+//                 double x = round(coordinates[k] / dt);
+//                 double y = round(coordinates[k+1] / dt);
+
+//                 double xy[2] = {round(coordinates[k] / dt), round(coordinates[k+1] / dt)};
+
+//                 // if(k != 0){
+//                 //     if(x == grid->at(j)->at(grid->at(j)->size() - 2) && y == grid->at(j)->at(grid->at(j)->size() - 1)){
+//                 //         continue;
+//                 //     }
+//                 // }
+//                 // grid->at(j)->push_back(x);
+//                 // grid->at(j)->push_back(y);
+//             }
+//         }
+//         allGrids->push_back(grid);
+//     }
+// }
