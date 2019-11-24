@@ -19,3 +19,9 @@ int Initialization::getClusterSize(void) {
 Cluster * Initialization::getClusterItem(int index) {
     return &(this->cluster[index]);
 }
+
+void Initialization::clearClusterItems(){
+    for(int i=0; i<this->numberOfClusters; i++){
+        this->cluster[i].clearClusterItems();
+    }
+}

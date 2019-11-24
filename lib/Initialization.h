@@ -21,6 +21,7 @@ class Initialization {
         virtual ~Initialization(void);
         int getClusterSize(void); 
         Cluster * getClusterItem(int index);
+        void clearClusterItems();
 };
 
 #endif //INITIALIZATION

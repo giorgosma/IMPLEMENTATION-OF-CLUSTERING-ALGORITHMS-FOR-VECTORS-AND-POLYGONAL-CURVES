@@ -22,9 +22,12 @@ class Cluster {
         Cluster(void);
         ~Cluster(void);
         void initCluster(string id, int size, double *dimension);
+        void updateCentroid(string id, int size, double * dimension);
         void printClusterInfo(void);
         Vector * getCentroid(void);
         void addItemToCluster(Vector *item);
+        vector<Vector *> * getItems(void);
+        void clearClusterItems(void);
 };
 
 #endif //CLUSTER

@@ -11,6 +11,8 @@
 #include "./lib/Assignment.h"
 #include "./lib/Lloyds.h"
 #include "./lib/CurvesParser.h"
+#include "./lib/Update.h"
+#include "./lib/PAM.h"
 
 using namespace std;
 using namespace std::chrono;
@@ -22,23 +24,23 @@ using namespace std::chrono;
 int main(int args, char **argv) {
 
     // POINTS
-    // Parser parser;
-    // parser.parseFileInput(argv[1]);
-    // VectorArray *vectorArray = parser.readFileInput(argv[1]);
+    Parser parser;
+    parser.parseFileInput(argv[1]);
+    VectorArray *vectorArray = parser.readFileInput(argv[1]);
 
     // CURVES
-    CurvesParser parser;
-    vector<vector<double> *> * curves = parser.parseFile(argv[1]);
-    VectorArray *vectorArray = parser.storeCurvesIntoVectorArray(curves);
-    Distance * manhattan = new DTW();
+    // CurvesParser parser;
+    // vector<vector<double> *> * curves = parser.parseFile(argv[1]);
+    // VectorArray *vectorArray = parser.storeCurvesIntoVectorArray(curves);
+    // Distance * manhattan = new DTW();
 
-    cout << "DIST C " << manhattan->calculateDistance(curves->at(0), curves->at(2)) << endl;
-    cout << "DIST V " << manhattan->calculateDistance(vectorArray->getVectorArrayItem(0), vectorArray->getVectorArrayItem(2)) << endl;
+    // cout << "DIST C " << manhattan->calculateDistance(curves->at(0), curves->at(2)) << endl;
+    // cout << "DIST V " << manhattan->calculateDistance(vectorArray->getVectorArrayItem(0), vectorArray->getVectorArrayItem(2)) << endl;
 
 
     int K = 5;
 
-    // Distance * manhattan = new Manhattan();
+    Distance * manhattan = new Manhattan();
 
     // // Initialization * initial = new KMeansInit(K, vectorArray);
     // Initialization * initial = new KMeansInit(K, vectorArray, manhattan);
@@ -60,22 +62,43 @@ int main(int args, char **argv) {
     //         if(dist>max) max = dist;
     //     }
     // }
-    
-    delete manhattan;
+
 
     // avg /= count;
     // cout << "Maximum Distance: " << max << endl;
     // cout << "Minimum Distance: " << min << endl;
     // cout << "Average Distance: " << avg << endl;
 
-    // delete manhattan;
 
-    // Initialization * initial = new RandomSelection(K, vectorArray);
-    // Assignment * assign = new Lloyds();
-    // assign->setupAssignment(initial, vectorArray);
-    // assign->printClusterItems(initial);
-    // delete initial;
+    Initialization * initial = new KMeansInit(K, vectorArray, manhattan);
+    Assignment * assign = new Lloyds();
+    Update * update = new PAM();
+    assign->setupAssignment(initial, vectorArray);
+    assign->printClusterItems(initial);
+
+    update->update(initial);
+    initial->clearClusterItems();
+    assign->setupAssignment(initial, vectorArray);
+    assign->printClusterItems(initial);
+
+    update->update(initial);
+    initial->clearClusterItems();
+    assign->setupAssignment(initial, vectorArray);
+    assign->printClusterItems(initial);
+
+    update->update(initial);
+    initial->clearClusterItems();
+    assign->setupAssignment(initial, vectorArray);
+    assign->printClusterItems(initial);
+
+    update->update(initial);
+    initial->clearClusterItems();
+    assign->setupAssignment(initial, vectorArray);
+    assign->printClusterItems(initial);
+
+    delete initial;
     delete vectorArray;
-    // delete assign;
+    delete manhattan;
+    delete assign;
 
 }

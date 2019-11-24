@@ -17,6 +17,12 @@ void Cluster::initCluster(string id, int size, double *dimension){
 
 }
 
+void Cluster::updateCentroid(string id, int size, double * dimension){
+    delete this->centroid;
+    this->centroid = new Vector(id, size);
+    this->centroid->initVector(dimension);
+}
+
 void Cluster::printClusterInfo(void) {
     cout << "Cluster Centroid: " << this->centroid->getVectorID() << endl;
     // this->centroid->printVector();
@@ -29,4 +35,13 @@ Vector * Cluster::getCentroid(void){
 
 void Cluster::addItemToCluster(Vector *item){
     this->clusterItems.push_back(item);
+}
+vector<Vector *> * Cluster::getItems(void){
+    return &(this->clusterItems);
+}
+
+void Cluster::clearClusterItems(void){
+    for(int i=0; i<(int)this->clusterItems.size(); i++){
+        this->clusterItems.clear();
+    }
 }
