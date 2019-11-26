@@ -49,3 +49,7 @@ void Vector::setG(unsigned int g) {
 unsigned int Vector::getG(int index) {
     return this->g.at(index);
 }
+
+vector<unsigned int> * Vector::getG() {
+    return &(this->g);
+}

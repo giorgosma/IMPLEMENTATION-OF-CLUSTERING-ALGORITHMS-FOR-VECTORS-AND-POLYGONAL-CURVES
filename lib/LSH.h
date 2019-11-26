@@ -22,6 +22,8 @@ class LSH {
         Vector * getNN(Vector * vector);
         vector <Vector *> getNNBonus(Vector * vec, int r);
         vector<string> getBucketVectorsID(Vector * vec);
+        int getIndex(int G);
+        int getL();
 };
 
 #endif // LSH

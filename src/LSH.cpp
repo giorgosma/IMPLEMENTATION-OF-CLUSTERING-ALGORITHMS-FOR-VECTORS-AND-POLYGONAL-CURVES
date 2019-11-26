@@ -160,3 +160,11 @@ vector<string> LSH::getBucketVectorsID(Vector * vec) {
     }
     return bucketIDs;
 }
+
+int LSH::getIndex(int G) {
+    return locmodulo(G, (this->LhashTables[0]).at(0)->getTableSize());
+}
+
+int LSH::getL() {
+    return this->L;
+}

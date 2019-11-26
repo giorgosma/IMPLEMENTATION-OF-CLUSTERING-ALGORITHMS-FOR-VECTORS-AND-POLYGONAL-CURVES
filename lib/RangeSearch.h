@@ -2,15 +2,21 @@
 #include <cmath>
 #include "Assignment.h"
 #include "LSH.h"
+#include "DTW.h"
 #include "Grids.h"
 #include <algorithm>
 #include <chrono>
 #include <random>
 #include <iterator> 
+#include <set> 
 #include <unordered_map> 
 
 using namespace std;
 using namespace std::chrono;
+
+struct arrayMap{
+    unordered_map<int, vector<Cluster *>> umap; 
+}arrayMap;
 
 class RangeSearch : public Assignment{
     private:
@@ -26,4 +32,6 @@ class RangeSearch : public Assignment{
         ~RangeSearch(void);
         void setupAssignment(Initialization * init, VectorArray * vectors);
         void initLSH(VectorArray * vectors);
+        Cluster * getMinCluster(set<Cluster *> setOfClusters, Vector * vector);
+        void setupAssignment(Initialization * init, vector<Vector *> vectors);
 };
