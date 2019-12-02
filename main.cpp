@@ -87,17 +87,15 @@ int main(int args, char **argv) {
     Initialization * initial = new RandomSelection(K, vectorArray);
     old_centroids = initial->getCentroids();
     old_centroid_distance = centroidDistance(manhattan, old_centroids);
-    assign->setupAssignment(initial, vectorArray);
-    assign->printClusterItems(initial);
 
     int count = 0;
     while(count < 50){
         count++;
-        update->update(initial);
 
         initial->clearClusterItems();
         assign->setupAssignment(initial, vectorArray);
         assign->printClusterItems(initial);
+        update->update(initial);
 
         vector<Vector *> * new_centroids = initial->getCentroids();
         double new_centroid_distance = centroidDistance(manhattan, new_centroids);
@@ -112,7 +110,7 @@ int main(int args, char **argv) {
         //     }
         // }
 
-        // Check if centroid distance is within 1% if previous value
+        // Check if centroid distance is within 0.1% if previous value
         double diff = old_centroid_distance - new_centroid_distance;
         double diff_percentage = diff / old_centroid_distance;
         if(diff_percentage > -0.001 && diff_percentage < 0.001)
