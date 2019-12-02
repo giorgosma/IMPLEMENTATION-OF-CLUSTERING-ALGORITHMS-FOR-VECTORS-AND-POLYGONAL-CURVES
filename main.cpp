@@ -70,31 +70,65 @@ int main(int args, char **argv) {
     // cout << "Average Distance: " << avg << endl;
 
 
-    Initialization * initial = new KMeansInit(K, vectorArray, manhattan);
+    vector<Vector *> * old_centroids;
+    vector<Vector *> * new_centroids;
+
     Assignment * assign = new Lloyds();
     Update * update = new PAM();
+
+    Initialization * initial = new RandomSelection(K, vectorArray);
+    old_centroids = initial->getCentroids();
     assign->setupAssignment(initial, vectorArray);
     assign->printClusterItems(initial);
 
-    update->update(initial);
-    initial->clearClusterItems();
-    assign->setupAssignment(initial, vectorArray);
-    assign->printClusterItems(initial);
+    int count = 0;
+    while(count < 5){
+        count++;
+        update->update(initial);
 
-    update->update(initial);
-    initial->clearClusterItems();
-    assign->setupAssignment(initial, vectorArray);
-    assign->printClusterItems(initial);
+        initial->clearClusterItems();
+        assign->setupAssignment(initial, vectorArray);
+        assign->printClusterItems(initial);
 
-    update->update(initial);
-    initial->clearClusterItems();
-    assign->setupAssignment(initial, vectorArray);
-    assign->printClusterItems(initial);
+        new_centroids = initial->getCentroids();
 
-    update->update(initial);
-    initial->clearClusterItems();
-    assign->setupAssignment(initial, vectorArray);
-    assign->printClusterItems(initial);
+        for(int i=0; i<old_centroids->size(); i++) cout << old_centroids->at(i)->getVectorID() << endl;
+        for(int i=0; i<old_centroids->size(); i++) cout << new_centroids->at(i)->getVectorID() << endl;
+
+        bool allSame = true;
+        for(int i=0; i<old_centroids->size(); i++){
+            if(old_centroids->at(i)->getVectorID() != new_centroids->at(i)->getVectorID()){
+                allSame = false;
+                break;
+            }
+        }
+        if(allSame){
+            break;
+        }
+
+        old_centroids->clear();
+        for(int i=0; i<new_centroids->size(); i++){
+            old_centroids->push_back(new_centroids->at(i));
+        }
+        delete new_centroids;
+    }
+
+    cout << "Loop count: " << count << endl;
+
+    // update->update(initial);
+    // initial->clearClusterItems();
+    // assign->setupAssignment(initial, vectorArray);
+    // assign->printClusterItems(initial);
+
+    // update->update(initial);
+    // initial->clearClusterItems();
+    // assign->setupAssignment(initial, vectorArray);
+    // assign->printClusterItems(initial);
+
+    // update->update(initial);
+    // initial->clearClusterItems();
+    // assign->setupAssignment(initial, vectorArray);
+    // assign->printClusterItems(initial);
 
     delete initial;
     delete vectorArray;

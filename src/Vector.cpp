@@ -53,3 +53,7 @@ unsigned int Vector::getG(int index) {
 vector<unsigned int> * Vector::getG() {
     return &(this->g);
 }
+
+double * Vector::getDimension(void){
+    return this->dimension;
+}

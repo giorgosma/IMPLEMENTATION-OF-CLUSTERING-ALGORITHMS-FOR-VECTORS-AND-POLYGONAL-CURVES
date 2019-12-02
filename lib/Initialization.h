@@ -22,6 +22,7 @@ class Initialization {
         int getClusterSize(void); 
         Cluster * getClusterItem(int index);
         void clearClusterItems();
+        vector <Vector *> * getCentroids(void);
 };
 
 #endif //INITIALIZATION

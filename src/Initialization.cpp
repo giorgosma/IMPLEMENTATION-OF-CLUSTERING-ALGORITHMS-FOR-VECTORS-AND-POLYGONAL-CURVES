@@ -25,3 +25,11 @@ void Initialization::clearClusterItems(){
         this->cluster[i].clearClusterItems();
     }
 }
+
+vector<Vector *> * Initialization::getCentroids(void){
+    vector<Vector *> * centroids = new vector<Vector *>;
+    for(int i=0; i<this->numberOfClusters; i++){
+        centroids->push_back(this->cluster[i].getCentroid());
+    }
+    return centroids;
+}

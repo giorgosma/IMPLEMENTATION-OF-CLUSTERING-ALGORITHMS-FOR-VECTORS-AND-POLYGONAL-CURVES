@@ -27,6 +27,7 @@ class Vector {
         unsigned int getG(int index);
         double * getVectorCoordinates();
         vector<unsigned int> * getG();
+        double * getDimension();
 };
 
 #endif //VECTOR
