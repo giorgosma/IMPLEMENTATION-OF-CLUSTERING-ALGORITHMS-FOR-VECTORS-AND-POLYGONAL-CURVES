@@ -29,7 +29,10 @@ void Initialization::clearClusterItems(){
 vector<Vector *> * Initialization::getCentroids(void){
     vector<Vector *> * centroids = new vector<Vector *>;
     for(int i=0; i<this->numberOfClusters; i++){
-        centroids->push_back(this->cluster[i].getCentroid());
+        Vector * temp = this->cluster[i].getCentroid();
+        Vector * cent = new Vector(temp->getID(), temp->getSize());
+        cent->initVector(temp->getDimension());
+        centroids->push_back(cent);
     }
     return centroids;
 }

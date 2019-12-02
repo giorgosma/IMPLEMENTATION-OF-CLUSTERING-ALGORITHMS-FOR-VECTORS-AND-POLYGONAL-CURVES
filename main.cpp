@@ -71,7 +71,6 @@ int main(int args, char **argv) {
 
 
     vector<Vector *> * old_centroids;
-    vector<Vector *> * new_centroids;
 
     Assignment * assign = new Lloyds();
     Update * update = new PAM();
@@ -82,7 +81,7 @@ int main(int args, char **argv) {
     assign->printClusterItems(initial);
 
     int count = 0;
-    while(count < 5){
+    while(count < 50){
         count++;
         update->update(initial);
 
@@ -90,10 +89,13 @@ int main(int args, char **argv) {
         assign->setupAssignment(initial, vectorArray);
         assign->printClusterItems(initial);
 
+        vector<Vector *> * new_centroids;
         new_centroids = initial->getCentroids();
 
-        for(int i=0; i<old_centroids->size(); i++) cout << old_centroids->at(i)->getVectorID() << endl;
-        for(int i=0; i<old_centroids->size(); i++) cout << new_centroids->at(i)->getVectorID() << endl;
+        for(int i=0; i<old_centroids->size(); i++) cout << old_centroids->at(i)->getVectorID() << " ";
+        cout << endl;
+        for(int i=0; i<old_centroids->size(); i++) cout << new_centroids->at(i)->getVectorID() << " ";
+        cout << endl;
 
         bool allSame = true;
         for(int i=0; i<old_centroids->size(); i++){
@@ -102,17 +104,30 @@ int main(int args, char **argv) {
                 break;
             }
         }
-        if(allSame){
-            break;
-        }
 
+        // Delete old centroids
+        for(int i=0; i<old_centroids->size(); i++){
+            delete old_centroids->at(i);
+        }
         old_centroids->clear();
+
+        // Update old centroids with new centroids
         for(int i=0; i<new_centroids->size(); i++){
             old_centroids->push_back(new_centroids->at(i));
         }
-        delete new_centroids;
-    }
 
+        // Delete new centroids
+        delete new_centroids;
+
+        if(allSame){
+            break;
+        }
+    }
+    
+    for(int i=0; i<old_centroids->size(); i++){
+        delete old_centroids->at(i);
+    }
+    delete old_centroids;
     cout << "Loop count: " << count << endl;
 
     // update->update(initial);
@@ -134,5 +149,5 @@ int main(int args, char **argv) {
     delete vectorArray;
     delete manhattan;
     delete assign;
-
+    delete update;
 }

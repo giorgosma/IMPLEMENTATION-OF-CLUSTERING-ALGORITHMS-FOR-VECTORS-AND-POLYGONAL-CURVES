@@ -34,11 +34,14 @@ void PAM::update(Initialization * init){
             }
         }
 
+        delete dist;
+
         // cout << "Cluster #" << i << " minimum is " << index << ": " << min << endl;
         // for(int j=0; j<dist->size(); j++){
         //     cout << j << ") " << dist->at(j) << endl;
         // }
 
         init->getClusterItem(i)->updateCentroid(points->at(index)->getVectorID(), points->at(index)->getVectorDimension(), points->at(index)->getVectorCoordinates());
-    } 
+    }
+    delete distance;
 }

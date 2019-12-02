@@ -57,3 +57,11 @@ vector<unsigned int> * Vector::getG() {
 double * Vector::getDimension(void){
     return this->dimension;
 }
+
+int Vector::getSize(void){
+    return this->size;
+}
+
+string Vector::getID(void){
+    return this->id;
+}

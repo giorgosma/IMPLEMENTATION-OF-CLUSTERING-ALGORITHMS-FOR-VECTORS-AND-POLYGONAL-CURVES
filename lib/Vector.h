@@ -28,6 +28,8 @@ class Vector {
         double * getVectorCoordinates();
         vector<unsigned int> * getG();
         double * getDimension();
+        int getSize();
+        string getID();
 };
 
 #endif //VECTOR
