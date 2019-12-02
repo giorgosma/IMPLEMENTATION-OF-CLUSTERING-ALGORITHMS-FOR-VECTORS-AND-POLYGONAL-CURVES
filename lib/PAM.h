@@ -17,4 +17,5 @@ class PAM : public Update{
         PAM(void);
         ~PAM(void);
         void update(Initialization * init);
+        void update(Initialization * init, Distance * distance);
 };
