@@ -17,10 +17,6 @@
 using namespace std;
 using namespace std::chrono;
 
-// inputFile queryFile k L r
-// k=4 L=5 r=-1
-//  1          2       3 4 5
-
 double centroidDistance(Distance * calculator, vector<Vector *> * centroids){
     double dist = 0;
     for(int i=0; i<centroids->size()-1; i++){
@@ -31,86 +27,43 @@ double centroidDistance(Distance * calculator, vector<Vector *> * centroids){
 
 int main(int args, char **argv) {
 
-    // POINTS
+    // Parse input file
     Parser parser;
     parser.parseFileInput(argv[1]);
     VectorArray *vectorArray = parser.readFileInput(argv[1]);
 
-    // CURVES
-    // CurvesParser parser;
-    // vector<vector<double> *> * curves = parser.parseFile(argv[1]);
-    // VectorArray *vectorArray = parser.storeCurvesIntoVectorArray(curves);
-    // Distance * manhattan = new DTW();
-
-    // cout << "DIST C " << manhattan->calculateDistance(curves->at(0), curves->at(2)) << endl;
-    // cout << "DIST V " << manhattan->calculateDistance(vectorArray->getVectorArrayItem(0), vectorArray->getVectorArrayItem(2)) << endl;
-
-
     int K = 5;
 
+    // Create distance calculating object
     Distance * manhattan = new Manhattan();
 
-    // // Initialization * initial = new KMeansInit(K, vectorArray);
-    // Initialization * initial = new KMeansInit(K, vectorArray, manhattan);
+    // Initialize cluster centroids with RandomSelection/KMeans
+    Initialization * initial = new RandomSelection(K, vectorArray);
 
-    // // Print distances
-    // double max = 0;
-    // double min = 1000000000;
-    // double avg = 0;
-    // double count = 0;
-    // for(int i=0; i<K; i++){
-    //     for(int j=0; j<K; j++){
-    //         if(i>=j) continue;
-    //         double dist = manhattan->calculateDistance(initial->getClusterItem(i)->getCentroid(), initial->getClusterItem(j)->getCentroid());
-    //         cout << "dist(" << i << ", " << j << "): " << dist << endl;
-
-    //         avg += dist;
-    //         count++;
-    //         if(dist<min) min = dist;
-    //         if(dist>max) max = dist;
-    //     }
-    // }
-
-
-    // avg /= count;
-    // cout << "Maximum Distance: " << max << endl;
-    // cout << "Minimum Distance: " << min << endl;
-    // cout << "Average Distance: " << avg << endl;
-
-
-    vector<Vector *> * old_centroids;
-    double old_centroid_distance;
-
+    // Create assign and update objects
     Assignment * assign = new Lloyds();
     Update * update = new PAM();
 
-    Initialization * initial = new RandomSelection(K, vectorArray);
-    old_centroids = initial->getCentroids();
-    old_centroid_distance = centroidDistance(manhattan, old_centroids);
+    // Calculate distance between the initial centroids
+    vector<Vector *> * old_centroids = initial->getCentroids();
+    double old_centroid_distance = centroidDistance(manhattan, old_centroids);
 
     int count = 0;
     while(count < 50){
         count++;
 
+        // Assign points to clusters and update centroids
         initial->clearClusterItems();
         assign->setupAssignment(initial, vectorArray);
         assign->printClusterItems(initial);
         update->update(initial);
 
+        // Calculate distance between the newly selected centroids
         vector<Vector *> * new_centroids = initial->getCentroids();
         double new_centroid_distance = centroidDistance(manhattan, new_centroids);
 
-        bool terminateLoop = true;
-
-        // // Check if centroids have the same IDs
-        // for(int i=0; i<old_centroids->size(); i++){
-        //     if(old_centroids->at(i)->getVectorID() != new_centroids->at(i)->getVectorID()){
-        //         terminateLoop = false;
-        //         break;
-        //     }
-        // }
-
         // Check if centroid distance is within 0.1% if previous value
+        bool terminateLoop;
         double diff = old_centroid_distance - new_centroid_distance;
         double diff_percentage = diff / old_centroid_distance;
         if(diff_percentage > -0.001 && diff_percentage < 0.001)
@@ -118,7 +71,7 @@ int main(int args, char **argv) {
         else terminateLoop = false;
 
 
-
+        // Print details about old and new centroids
         for(int i=0; i<old_centroids->size(); i++) cout << old_centroids->at(i)->getVectorID() << " ";
         cout << "    Total distance: " << old_centroid_distance << endl;
         for(int i=0; i<old_centroids->size(); i++) cout << new_centroids->at(i)->getVectorID() << " ";
@@ -143,31 +96,18 @@ int main(int args, char **argv) {
         // Delete new centroids
         delete new_centroids;
 
+        // End loop if need be
         if(terminateLoop){
             break;
         }
     }
-    
+
+    // Delete old centroids
     for(int i=0; i<old_centroids->size(); i++){
         delete old_centroids->at(i);
     }
     delete old_centroids;
     cout << "Loop count: " << count << endl;
-
-    // update->update(initial);
-    // initial->clearClusterItems();
-    // assign->setupAssignment(initial, vectorArray);
-    // assign->printClusterItems(initial);
-
-    // update->update(initial);
-    // initial->clearClusterItems();
-    // assign->setupAssignment(initial, vectorArray);
-    // assign->printClusterItems(initial);
-
-    // update->update(initial);
-    // initial->clearClusterItems();
-    // assign->setupAssignment(initial, vectorArray);
-    // assign->printClusterItems(initial);
 
     delete initial;
     delete vectorArray;
