@@ -21,6 +21,7 @@ class Update {
         Update(void);
         virtual ~Update(void);
         virtual void update(Initialization * init);
+        virtual void update(Initialization * init, Distance * distance);
 };
 
 #endif //UPDATE

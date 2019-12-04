@@ -79,5 +79,4 @@ void PAM::update(Initialization * init, Distance * distance){
 
         init->getClusterItem(i)->updateCentroid(points->at(index)->getVectorID(), points->at(index)->getVectorDimension(), points->at(index)->getVectorCoordinates());
     }
-    delete distance;
 }
