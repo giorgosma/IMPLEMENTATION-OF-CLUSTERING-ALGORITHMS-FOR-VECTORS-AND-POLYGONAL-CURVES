@@ -37,8 +37,8 @@ void LSH::addItem(Vector *vector) {
 }
 
 void LSH::addG(Vector * vector){
-    for(int i=0; i<this->L; i++){
-        (this->LhashTables[i]).at(0)->addG(vector);
+    for(int i = 0; i < this->L; i++ ){
+        ((this->LhashTables[i]).at(0))->addG(vector);
     }
 }
 

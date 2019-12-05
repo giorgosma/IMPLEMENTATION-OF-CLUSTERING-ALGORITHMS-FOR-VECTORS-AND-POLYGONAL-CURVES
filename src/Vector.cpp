@@ -31,7 +31,7 @@ int Vector::getVectorDimension(void) {
 }
 
 double Vector::getVectorItem(int index) {
-    return this->dimension[index];
+    return (this->dimension)[index];
 }
 
 double * Vector::getVectorCoordinates() {

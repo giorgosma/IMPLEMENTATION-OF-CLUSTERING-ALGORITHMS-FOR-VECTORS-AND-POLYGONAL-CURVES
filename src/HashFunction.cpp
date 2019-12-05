@@ -44,8 +44,8 @@ void HashFunction::clearKHI(void) {
 void HashFunction::constructAI(Vector *v, int indexK) {
     this->a.clear();
 
-    for (int i = 0; i < (int)(this->s[indexK].size()); i++) {
-        this->a.push_back(floor(((double)((v->getVectorItem(i) - this->s[indexK].at(i))) / this->w)));
+    for (int i = 0; i < (int)((this->s[indexK]).size()); i++) {
+        this->a.push_back(floor(((double)((v->getVectorItem(i) - ((this->s)[indexK]).at(i))) / this->w)));
     }
     // for (int i = 0; i < (int)(this->s.size()); i++) {
     //     this->a.push_back(floor(((double)((v->getVectorItem(i) - this->s[i])) / this->w)));

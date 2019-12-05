@@ -2,6 +2,7 @@
 
 Cluster::Cluster(void) {    
     cout << "Cluster is being created" << endl;
+    this->centroid = NULL;
 }
 
 Cluster::~Cluster(void) {

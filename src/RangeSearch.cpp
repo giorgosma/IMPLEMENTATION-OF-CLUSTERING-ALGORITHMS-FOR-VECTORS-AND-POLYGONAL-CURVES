@@ -25,20 +25,22 @@ RangeSearch::RangeSearch(int k, int L_grids, VectorArray *curves, vector<vector<
     cout << "RangeSearch is being created" << endl;
     this->isCurve = true;
 
-    Grids * grid = new Grids(L_grids, 0.01, 2);
+    this->grid = new Grids(L_grids, 0.01, 2);
     this->lshSize = L_grids;
     vector<vector<vector<double> *> *> * LGrids = grid->projectToGrids(veCurves);
-    this->vectorArraySize = static_cast<int>(LGrids->size());
-    VectorArray **vectorArray = new VectorArray*[LGrids->size()];
+    // this->vectorArraySize = static_cast<int>(LGrids->size());
+    this->vectorArraySize = L_grids;
+    cout << "SIZE " << this->vectorArraySize << endl;
+    VectorArray **vectorArray = new VectorArray*[this->vectorArraySize];
     this->lsh = new LSH*[LGrids->size()];
     for (int i = 0; i < (int)(LGrids->size()); i++) {
         vectorArray[i] = new VectorArray(LGrids->at(i)->size());
-        this->lsh[i] = new LSH(1, (LGrids->at(i)->size())/8, 4000, LGrids->at(i)->at(0)->size(), k);
+        this->lsh[i] = new LSH(1, (LGrids->at(i)->size())/8, 4000, (int)(LGrids->at(i)->at(0)->size()), k);
         for (int j = 0; j < (int)(LGrids->at(i)->size()); j++) {
             Vector *vector = new Vector(to_string(j), LGrids->at(i)->at(j)->size());
             double *dimension = new double[LGrids->at(i)->at(j)->size()];
-            for (int k = 0; k < (int)(LGrids->at(i)->at(j)->size()); k++) {
-                dimension[k] = LGrids->at(i)->at(j)->at(k);
+            for (int l = 0; l < (int)(LGrids->at(i)->at(j)->size()); l++) {
+                dimension[l] = LGrids->at(i)->at(j)->at(l);
             }
             vector->initVector(dimension);
             delete[] dimension;
@@ -53,8 +55,7 @@ RangeSearch::RangeSearch(int k, int L_grids, VectorArray *curves, vector<vector<
     //     delete vectorArray[i];
     // }
     // delete[] vectorArray; 
-    delete LGrids; 
-    delete grid; 
+    delete LGrids;  
 
 }
 
@@ -65,6 +66,7 @@ RangeSearch::~RangeSearch(void) {
             delete this->vectorArray[i];
         }
         delete[] this->vectorArray;
+        delete this->grid;
     } 
     for (int i = 0; i < this->lshSize; i++) {
         delete this->lsh[i];
@@ -86,6 +88,12 @@ void RangeSearch::initLSH(VectorArray * vectors) {
 // }
 
 void RangeSearch::setupAssignment(Initialization * init, VectorArray * vectors) {
+    //
+        if (this->isCurve) {
+            this->setupCurvesAssignment(init, vectors);
+            return;
+        }
+    //
     int umapSize = 0;
     for (int i = 0; i < this->lshSize; i++)
         umapSize += this->lsh[i]->getL();
@@ -100,7 +108,6 @@ void RangeSearch::setupAssignment(Initialization * init, VectorArray * vectors) 
             gArray = centroid->getG();
             for (int k = 0; k < (int)(gArray->size()); k++) {  // fill umap with key G and centroids
                 umap[k].umap[this->lsh[i]->getIndex(gArray->at(k))].push_back(init->getClusterItem(j));
-                // umap[this->lsh[i]->getIndex(gArray->at(k))].push_back(init->getClusterItem(j));
                 // cout << "\t" << this->lsh[i]->getIndex(gArray->at(k)) << endl;
             }
         }
@@ -120,7 +127,6 @@ void RangeSearch::setupAssignment(Initialization * init, VectorArray * vectors) 
             }
         } 
     }
-// return;
     // for (auto x : umap) {
     //     cout << x.first << " -->" << x.second.size() << endl; 
     //     for (int i = 0; i < x.second.size(); i++)
@@ -136,15 +142,15 @@ void RangeSearch::setupAssignment(Initialization * init, VectorArray * vectors) 
     //
 
     Cluster * MinCluster = NULL;
-    for (int i = 0; i < this->lshSize; i++) {
+    for (int i = 0; i < this->lshSize; i++) {                       // for each LSH
         vector<Vector *> LloydsVectorArray;
-        for (int j = 0; j < vectors->getVectorArraySize(); j++) {
+        for (int j = 0; j < vectors->getVectorArraySize(); j++) {   // for each Vector
             set<Cluster *> umapClusters;
             Vector *vector = vectors->getVectorArrayItem(j);
             // if (j < 20)
                 // cout << vector->getVectorID() << endl << " G: ";
             gArray = vector->getG();
-            for (int k = 0; k < (int)(gArray->size()); k++) {
+            for (int k = 0; k < (int)(gArray->size()); k++) {       // for each Vector's G
                 int indexG = this->lsh[i]->getIndex(gArray->at(k));
                 // if (j < 20)
                     // cout << indexG << " ";
@@ -156,8 +162,8 @@ void RangeSearch::setupAssignment(Initialization * init, VectorArray * vectors) 
                     // }
                     // cout << "UMAP " << k << " INDEX " << indexG << " SIZE " << (int)((umap[k]).umap[indexG]).size() << endl;
                 }
-                else {
-                    for (int l = 0; l < (int)(((umap[k]).umap)[indexG]).size(); l++) {
+                else {                                              // indexG was found in 
+                    for (int l = 0; l < (int)(((umap[k]).umap)[indexG]).size(); l++) {  
                         umapClusters.insert((((umap[k]).umap)[indexG])[l]);
                         // cout << "INSERTED umapClusters " << (((umap[k]).umap)[indexG])[l]->getCentroid()->getVectorID() << endl;
                     }
@@ -182,45 +188,149 @@ void RangeSearch::setupAssignment(Initialization * init, VectorArray * vectors) 
                     cout << vector->getVectorID() << " TO CENTROID " << MinCluster->getCentroid()->getVectorID() << endl;
                 }
             }
-    //         if (clustersVectorArray.size() > 1) {
-    //             Distance * distance = new Manhattan();
-    //             cout << clustersVectorArray[0] << " -> " << (umap.at(clustersVectorArray[0])[0])->getCentroid()->getVectorID() << endl;
-    //             double minDist = distance->calculateDistance(vector, (umap.at(clustersVectorArray[0])[0])->getCentroid() );
-    //             Cluster * vectorCluster = umap.at(clustersVectorArray[0])[0];
-    //             for (int k = 1; k < (int)(clustersVectorArray.size()); k++) {
-    //                 double newDist;
-    //                 if (umap.at(clustersVectorArray[k]).size() > 1) {
-    //                     for (int l = 1; l < (int)(umap.at(clustersVectorArray[k]).size()); l++) {
-    //                         newDist = distance->calculateDistance(vector, (umap.at(clustersVectorArray[k])[l])->getCentroid());
-    //                         if (minDist > newDist){
-    //                             minDist = newDist;
-    //                             vectorCluster = umap.at(clustersVectorArray[k])[l];  
-    //                         }
-    //                     }
-    //                 }
-    //                 else {
-    //                     newDist = distance->calculateDistance(vector, (umap.at(clustersVectorArray[k])[0])->getCentroid());
-    //                     if (minDist > newDist){
-    //                         minDist = newDist;
-    //                         vectorCluster = umap.at(clustersVectorArray[k])[0];    
-    //                     }
-    //                 }
-    //             }
-    //             vectorCluster->addItemToCluster(vector);
-    //         }
-    //         else if (clustersVectorArray.size() == 1) { // push vector to clustersVectorArray[0]
-    //             cout << clustersVectorArray[0] << " -> " << (umap.at(clustersVectorArray[0])[0])->getCentroid()->getVectorID() << endl;
-    //             (umap.at(clustersVectorArray[0])[0])->addItemToCluster(vector);
-    //         }
-    //         else{}
-                // get minDist from all clusters -> call Lloyds
-                // store to a Varray and in the end call Lloyds
         }
         this->setupAssignment(init, LloydsVectorArray);
     }
     for (int i = 0; i < init->getClusterSize(); i++) {
         init->getClusterItem(i)->printClusterInfo();
     }
+    delete[] umap;
+}
+
+Cluster * RangeSearch::getRealCluster(Initialization * init, Vector *gridCentroid) {
+    for (int i = 0; i < init->getClusterSize(); i++) {
+        Cluster * cluster = init->getClusterItem(i);
+        if (cluster->getCentroid()->getVectorID() == gridCentroid->getVectorID())
+            return cluster;
+    }
+    return NULL;
+}
+
+void RangeSearch::setupCurvesAssignment(Initialization * init, VectorArray * vectors) {
+    int umapSize = 0;
+    for (int i = 0; i < this->lshSize; i++)
+        umapSize += this->lsh[i]->getL();
+    struct arrayMap * umap = new struct arrayMap[umapSize];      // INDEX_BUCKET, CLSUTER_CENTROID
+    vector<unsigned int> *gArray;
+
+    vector<vector<double> *> * centroidGrids = new vector<vector<double> *>;    // Convert centroids to GRIDS
+    for (int j = 0; j < init->getClusterSize(); j++) {
+        Vector *centroid = init->getClusterItem(j)->getCentroid();
+        cout << centroid->getVectorID() << endl;
+        double * pArray = centroid->getVectorCoordinates();    
+        vector<double> * centroidVector = new vector<double>(pArray, pArray + (sizeof(double) * (centroid->getVectorDimension()) / sizeof(pArray[0])));
+        centroidGrids->push_back(centroidVector);    
+    }
+    vector<vector<vector<double> *> *> * LGridsCentroids = this->grid->projectToGrids(centroidGrids);
+    int vectorArraySize = static_cast<int>(LGridsCentroids->size());
+    VectorArray **vectorArray = new VectorArray*[LGridsCentroids->size()];
+    for (int i = 0; i < this->lshSize; i++) {
+        vectorArray[i] = new VectorArray((int)(LGridsCentroids->at(i)->size()));
+        // for (int j = 0; j < (int)(LGridsCentroids->at(i)->size()); j++) {
+        cout << "vectorArray [ " << i << " ] Size " << vectorArray[i]->getVectorArraySize() << endl;
+        for (int j = 0; j < vectorArray[i]->getVectorArraySize(); j++) {
+            Vector *vector = new Vector(to_string(j), max(this->vectorArray[i]->getVectorArrayItem(0)->getSize() , (int)(LGridsCentroids->at(i)->at(j)->size())));
+            double *dimension = new double[max(this->vectorArray[i]->getVectorArrayItem(0)->getSize() , (int)(LGridsCentroids->at(i)->at(j)->size()))];
+            for (int l = 0; l < max(this->vectorArray[i]->getVectorArrayItem(0)->getSize() , (int)(LGridsCentroids->at(i)->at(j)->size())); l++) {
+                if (l >= (int)(LGridsCentroids->at(i)->at(j)->size()))
+                    dimension[l] = 0;
+                else
+                    dimension[l] = LGridsCentroids->at(i)->at(j)->at(l);
+            }
+            vector->initVector(dimension);
+            delete[] dimension;
+            vectorArray[i]->addVectorToArray(vector, j);
+            // this->lsh[i]->addItem(vectorArray[i]->getVectorArrayItem(j));
+            // (this->lsh[i])->addG(vectorArray[i]->getVectorArrayItem(j)); 
+            cout << "Centroid Dimension " << vector->getSize() << " Other Dimension " << this->vectorArray[i]->getVectorArrayItem(0)->getSize() << " " << this->vectorArray[i]->getVectorArrayItem(3)->getSize()<< endl;
+            ((this->lsh)[i])->addG(vector); 
+            delete LGridsCentroids->at(i)->at(j);
+        }
+        delete LGridsCentroids->at(i);
+    }
+    delete LGridsCentroids; 
+
+    for (int i = 0; i < this->lshSize; i++) {
+        for (int j = 0; j < init->getClusterSize(); j++) {
+            Vector *centroid = vectorArray[i]->getVectorArrayItem(j);
+    //         // vector<vector<double> *> * veCurves
+    //         // vector<vector<vector<double> *> *> * LGrids = grid->projectToGrids(veCurves);
+    //         // (this->lsh[i])->addG(centroid);     // create G for Centroids
+    //         // cout << "-" << centroid->getVectorID() << endl;
+    //         // if (i < this->lshSize - 1)
+    //         //     continue;
+            gArray = centroid->getG();
+            for (int k = 0; k < (int)(gArray->size()); k++) {  // fill umap with key G and centroids
+                // umap[k].umap[this->lsh[i]->getIndex(gArray->at(k))].push_back(init->getClusterItem(j));
+                umap[i].umap[this->lsh[i]->getIndex(gArray->at(k))].push_back(init->getClusterItem(j));
+            //     // cout << "\t" << this->lsh[i]->getIndex(gArray->at(k)) << endl;
+            }
+        }
+    }
+
+    // int xIndex;
+    // for (int i = 0; i < umapSize; i++) {
+    //     cout << "- HT " << i << endl;
+    //     for (auto x : umap[i].umap) {
+    //         cout << "\t" << x.first << endl;
+    //         xIndex = x.first;
+    //         cout << "\t " << xIndex << " SIZE " << (((umap[i]).umap)[xIndex]).size() << endl;
+    //         for (int j = 0; j < (int)(x.second).size(); j++) {
+    //             cout << "\t\t S " << (x.second[j])->getCentroid()->getVectorID() << endl;
+    //             // cout << "\t\t I " << ((((umap[i]).umap)[xIndex])[j])->getCentroid()->getVectorID() << endl;
+    //         }
+    //     } 
+    // }
+
+    Cluster * MinCluster = NULL;
+    vector<Vector *> LloydsVectorArray;
+    for (int j = 0; j < (this->vectorArray[0])->getVectorArraySize(); j++) {    // For each Vector
+        set<Cluster *> umapClusters;
+        string id = vectors->getVectorArrayItem(j)->getVectorID();
+        for (int i = 0; i < this->lshSize; i++) {                               // For each Vector's Grid-Vector
+            Vector *vector = (this->vectorArray[i])->getVectorArrayItem(j);
+            if (id != (this->vectorArray[i])->getVectorArrayItem(j)->getVectorID())
+                cout << "------------------PROBLEM!!!!" << id << " and " << (this->vectorArray[i])->getVectorArrayItem(j)->getVectorID() << endl;
+            gArray = vector->getG();                                            // get G
+            for (int k = 0; k < (int)(gArray->size()); k++) {
+                int indexG = this->lsh[i]->getIndex(gArray->at(k));
+                if (((umap[i]).umap).find(indexG) == ((umap[i]).umap).end()) {
+                }
+                else {                                              // indexG was found in 
+                    for (int l = 0; l < (int)(((umap[i]).umap)[indexG]).size(); l++) {  
+                        Cluster *realCluster = this->getRealCluster(init, ((((umap[i]).umap)[indexG])[l])->getCentroid());
+                        if (realCluster == NULL)
+                            cout << "--REAL PROBLEM HERE" << endl;
+                        else 
+                            umapClusters.insert(realCluster);
+                    }
+                }
+            }
+        }
+        if (umapClusters.size() == 0) {
+            cout << "Lloyds for " << vectors->getVectorArrayItem(j)->getVectorID() << endl;
+            LloydsVectorArray.push_back(vectors->getVectorArrayItem(j));
+        }
+        else {
+            MinCluster = this->getMinCluster(umapClusters, vectors->getVectorArrayItem(j));
+            MinCluster->addItemToCluster(vectors->getVectorArrayItem(j));
+            cout << vectors->getVectorArrayItem(j)->getVectorID() << " TO CENTROID " << MinCluster->getCentroid()->getVectorID() << endl;
+        }
+    }
+    this->setupAssignment(init, LloydsVectorArray);
+
+    for (int i = 0; i < init->getClusterSize(); i++) {
+        init->getClusterItem(i)->printClusterInfo();
+    }
+
+    for (int i = 0; i < vectorArraySize; i++) {
+        delete vectorArray[i];
+    }
+    delete[] vectorArray;
+    for (int i = 0; i < (int)(centroidGrids->size()); i++){
+        delete centroidGrids->at(i);
+    }
+    delete centroidGrids;
     delete[] umap;
 }
 
@@ -253,7 +363,12 @@ Cluster * RangeSearch::getMinCluster(set<Cluster *> setOfClusters, Vector * vect
 }
 
 void RangeSearch::setupAssignment(Initialization * init, vector<Vector *> vectors) {
-    Distance * distance = new Manhattan();
+    Distance * distance;
+    if (this->isCurve)
+        distance = new DTW();
+    else 
+        distance = new Manhattan();
+
     int initCounter = 0;
     cout << "VectorArray = " << vectors.size() << " ClusterSize " << init->getClusterSize() << endl;
     for (int i = 0; i < (int)vectors.size(); i++) {       // for each vector item
@@ -269,9 +384,13 @@ void RangeSearch::setupAssignment(Initialization * init, vector<Vector *> vector
                 minDist = newDist;
                 indexCluster = j;  
             }
-        }                                                         // store item to the minDist centroid - cluster
+        }
+                                                                 // store item to the minDist centroid - cluster
         init->getClusterItem(indexCluster)->addItemToCluster(vectors[i]);
+        cout << "Added " << vectors[i]->getVectorID() << endl;
         initCounter++;
+        // if (i > 10)
+        //     break;
     }
     // cout << "Inited " << initCounter << " Vectors" << endl;
     delete distance;

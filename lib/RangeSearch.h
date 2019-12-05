@@ -1,3 +1,6 @@
+#ifndef RANGESEARCH
+#define RANGESEARCH
+
 #include <iostream>
 #include <cmath>
 #include "Assignment.h"
@@ -16,7 +19,7 @@ using namespace std::chrono;
 
 struct arrayMap{
     unordered_map<int, vector<Cluster *>> umap; 
-}arrayMap;
+};
 
 class RangeSearch : public Assignment{
     private:
@@ -24,8 +27,9 @@ class RangeSearch : public Assignment{
         int lshSize;
 
         bool isCurve;
+        Grids * grid;
         VectorArray **vectorArray;
-        long int vectorArraySize;
+        int vectorArraySize;
     public:
         RangeSearch(int L, int TableSize, int W, int dimensionSize, int k, VectorArray * vectors);
         RangeSearch(int k, int L_grids, VectorArray *curves, vector<vector<double> *> * veCurves);
@@ -34,4 +38,8 @@ class RangeSearch : public Assignment{
         void initLSH(VectorArray * vectors);
         Cluster * getMinCluster(set<Cluster *> setOfClusters, Vector * vector);
         void setupAssignment(Initialization * init, vector<Vector *> vectors);
+        void setupCurvesAssignment(Initialization * init, VectorArray * vectors);
+        Cluster * getRealCluster(Initialization * init, Vector *gridCentroid);
 };
+
+#endif //RANGESEARCH
