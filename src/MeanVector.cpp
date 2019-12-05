@@ -71,9 +71,9 @@ void MeanVector::update(Initialization * init, Distance * distance){
         }
 
         for(int j=0; j<size; j++){
-            cout << dimension[j] << endl;
+            cout << dimension[j] << ' ';
         }
-        cout << endl;
+        cout << endl << endl;
 
         init->getClusterItem(i)->updateCentroid(to_string(-1 * i), size, dimension);
     }

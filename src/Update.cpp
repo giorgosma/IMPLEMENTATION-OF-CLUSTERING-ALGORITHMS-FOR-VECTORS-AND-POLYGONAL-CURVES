@@ -11,3 +11,7 @@ Update::~Update(void) {
 void Update::update(Initialization * init){
     cout << "update() running on Update object" << endl;
 }
+
+void Update::update(Initialization * init, Distance * distance){
+    cout << "update() running on Update object" << endl;
+}
