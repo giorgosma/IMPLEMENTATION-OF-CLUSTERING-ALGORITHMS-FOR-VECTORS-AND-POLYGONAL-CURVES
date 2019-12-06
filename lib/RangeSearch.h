@@ -30,9 +30,10 @@ class RangeSearch : public Assignment{
         Grids * grid;
         VectorArray **vectorArray;
         int vectorArraySize;
+        Distance * distance;
     public:
-        RangeSearch(int L, int TableSize, int W, int dimensionSize, int k, VectorArray * vectors);
-        RangeSearch(int k, int L_grids, VectorArray *curves, vector<vector<double> *> * veCurves);
+        RangeSearch(int L, int TableSize, int W, int dimensionSize, int k, VectorArray * vectors, Distance * distance);
+        RangeSearch(int k, int L_grids, VectorArray *curves, vector<vector<double> *> * veCurves, Distance * distance);
         ~RangeSearch(void);
         void setupAssignment(Initialization * init, VectorArray * vectors);
         void initLSH(VectorArray * vectors);

@@ -96,9 +96,9 @@ int main(int args, char **argv) {
         assign = new Lloyds(isCurves);
     else if (assignSelection == 2) {
         if (isCurves)
-            assign = new RangeSearch(3, 2, vectorArray, curves);
+            assign = new RangeSearch(3, 2, vectorArray, curves, distance);
         else 
-            assign = new RangeSearch(3, vectorArray->getVectorArraySize() / 8, 4000, vectorArray->getVectorArrayItem(0)->getVectorDimension(), 4, vectorArray);
+            assign = new RangeSearch(3, vectorArray->getVectorArraySize() / 8, 4000, vectorArray->getVectorArrayItem(0)->getVectorDimension(), 4, vectorArray, distance);
     }
     else {
         cout << "ERROR in Assign" << endl;

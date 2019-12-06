@@ -1,10 +1,11 @@
 #include "../lib/RangeSearch.h"
 
-RangeSearch::RangeSearch(int L, int TableSize, int W, int dimensionSize, int k, VectorArray *vectors) : Assignment() {
+RangeSearch::RangeSearch(int L, int TableSize, int W, int dimensionSize, int k, VectorArray *vectors, Distance * distance) : Assignment() {
     cout << "RangeSearch is being created" << endl;
     this->lsh = new LSH*[1];
     this->lsh[0] = new LSH(L, TableSize, W, dimensionSize, k);  
     this->isCurve = false;
+    this->distance = distance;
 
     int counter = 0;
     for (int i = 0; i < vectors->getVectorArraySize(); i++) {
@@ -21,9 +22,10 @@ RangeSearch::RangeSearch(int L, int TableSize, int W, int dimensionSize, int k, 
     this->lshSize = 1;
 }
 
-RangeSearch::RangeSearch(int k, int L_grids, VectorArray *curves, vector<vector<double> *> * veCurves) : Assignment() {
+RangeSearch::RangeSearch(int k, int L_grids, VectorArray *curves, vector<vector<double> *> * veCurves, Distance * distance) : Assignment() {
     cout << "RangeSearch is being created" << endl;
     this->isCurve = true;
+    this->distance = distance;
 
     this->grid = new Grids(L_grids, 0.01, 2);
     this->lshSize = L_grids;
@@ -185,7 +187,7 @@ void RangeSearch::setupAssignment(Initialization * init, VectorArray * vectors) 
                 else {
                     MinCluster = this->getMinCluster(umapClusters, vector);
                     MinCluster->addItemToCluster(vector);
-                    cout << vector->getVectorID() << " TO CENTROID " << MinCluster->getCentroid()->getVectorID() << endl;
+                    // cout << vector->getVectorID() << " TO CENTROID " << MinCluster->getCentroid()->getVectorID() << endl;
                 }
             }
         }
@@ -314,7 +316,7 @@ void RangeSearch::setupCurvesAssignment(Initialization * init, VectorArray * vec
         else {
             MinCluster = this->getMinCluster(umapClusters, vectors->getVectorArrayItem(j));
             MinCluster->addItemToCluster(vectors->getVectorArrayItem(j));
-            cout << vectors->getVectorArrayItem(j)->getVectorID() << " TO CENTROID " << MinCluster->getCentroid()->getVectorID() << endl;
+            // cout << vectors->getVectorArrayItem(j)->getVectorID() << " TO CENTROID " << MinCluster->getCentroid()->getVectorID() << endl;
         }
     }
     this->setupAssignment(init, LloydsVectorArray);
@@ -339,35 +341,22 @@ Cluster * RangeSearch::getMinCluster(set<Cluster *> setOfClusters, Vector * vect
 	advance(it, 0);
     Cluster *minCluster = (*it);
     if (setOfClusters.size() > 1) {
-        Distance * dist;
-        if (this->isCurve) {
-            dist = new DTW();
-        }
-        else {
-            dist = new Manhattan();
-        }
 
-        double minDist = dist->calculateDistance((*it)->getCentroid(), vector);
+        double minDist = this->distance->calculateDistance((*it)->getCentroid(), vector);
         for (int i = 1; i < (int)setOfClusters.size(); i++) {
             it = setOfClusters.begin();
             advance(it, i);
-            double newDist = dist->calculateDistance((*it)->getCentroid(), vector);
+            double newDist = this->distance->calculateDistance((*it)->getCentroid(), vector);
             if (newDist < minDist) {
                 minDist = newDist;
                 minCluster = (*it);
             }
         }
-        delete dist;
     }
     return minCluster;
 }
 
 void RangeSearch::setupAssignment(Initialization * init, vector<Vector *> vectors) {
-    Distance * distance;
-    if (this->isCurve)
-        distance = new DTW();
-    else 
-        distance = new Manhattan();
 
     int initCounter = 0;
     cout << "VectorArray = " << vectors.size() << " ClusterSize " << init->getClusterSize() << endl;
@@ -376,10 +365,10 @@ void RangeSearch::setupAssignment(Initialization * init, vector<Vector *> vector
         //     // cout << "Vector " << vectors->getVectorArrayItem(i)->getVectorID() << endl;
         //     continue;
         // }
-        double minDist = distance->calculateDistance(vectors[i], init->getClusterItem(0)->getCentroid());
+        double minDist = this->distance->calculateDistance(vectors[i], init->getClusterItem(0)->getCentroid());
         int indexCluster = 0;
         for (int j = 1; j < init->getClusterSize(); j++) {          // for each centroid - cluster
-            double newDist = distance->calculateDistance(vectors[i], (init->getClusterItem(j))->getCentroid());
+            double newDist = this->distance->calculateDistance(vectors[i], (init->getClusterItem(j))->getCentroid());
             if (minDist > newDist){
                 minDist = newDist;
                 indexCluster = j;  
@@ -392,6 +381,4 @@ void RangeSearch::setupAssignment(Initialization * init, vector<Vector *> vector
         // if (i > 10)
         //     break;
     }
-    // cout << "Inited " << initCounter << " Vectors" << endl;
-    delete distance;
 }
