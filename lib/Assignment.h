@@ -12,6 +12,7 @@
 #include "VectorArray.h" 
 #include "Distance.h" 
 #include "Manhattan.h" 
+#include "DTW.h" 
 
 using namespace std;
 using namespace std::chrono;
