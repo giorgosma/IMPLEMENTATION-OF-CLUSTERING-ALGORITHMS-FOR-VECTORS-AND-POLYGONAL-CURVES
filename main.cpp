@@ -108,7 +108,11 @@ int main(int args, char **argv) {
     int updateSelection = atoi(argv[5]);
     if (updateSelection == 1)
         update = new PAM();
-    else if (updateSelection == 2) 
+    else if (updateSelection == 2)
+        if(isCurves){
+            cout << "Mean Curves not implemented" << endl;
+            return -1;
+        }
         update = new MeanVector();
     else {
         cout << "ERROR in Update" << endl;
