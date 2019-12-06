@@ -1,17 +1,17 @@
 #include "../lib/Lloyds.h"
 
 Lloyds::Lloyds(Distance * distance) : Assignment() {
-    cout << "Lloyds is being created" << endl;
+    // cout << "Lloyds is being created" << endl;
     this->distance = distance;
 }
 
 Lloyds::~Lloyds(void) {
-    cout << "Lloyds is being deleted" << endl;
+    // cout << "Lloyds is being deleted" << endl;
 }
 
 void Lloyds::setupAssignment(Initialization * init, VectorArray * vectors) {
     int initCounter = 0;
-    cout << "VectorArray = " << vectors->getVectorArraySize() << " ClusterSize " << init->getClusterSize() << endl;
+    // cout << "VectorArray = " << vectors->getVectorArraySize() << " ClusterSize " << init->getClusterSize() << endl;
     for (int i = 0; i < vectors->getVectorArraySize(); i++) {       // for each vector item
         // if (this->isCentroid(vectors->getVectorArrayItem(i), init)){
         //     // cout << "Vector " << vectors->getVectorArrayItem(i)->getVectorID() << endl;

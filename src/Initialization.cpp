@@ -1,13 +1,13 @@
 #include "../lib/Initialization.h"
 
 Initialization::Initialization(int K) {    
-    cout << "Initialization is being created" << endl;
+    // cout << "Initialization is being created" << endl;
     this->numberOfClusters = K;
     this->cluster = new Cluster[K];
 }
 
 Initialization::~Initialization(void) {
-    cout << "Initialization is being deleted" << endl;
+    // cout << "Initialization is being deleted" << endl;
     delete[] this->cluster;
 }
 

@@ -80,10 +80,21 @@ int main(int args, char **argv) {
     // Initialize cluster centroids with RandomSelection/KMeans
     Initialization * initial;
     int initialSelection = atoi(argv[3]);
-    if (initialSelection == 1)
+    int assignSelection = atoi(argv[4]);
+    int updateSelection = atoi(argv[5]);
+    if (initialSelection == 1) cout << "Initialization : Random Selection" << endl;
+    else if (initialSelection == 2) cout << "Initialization : K-Means++" << endl;
+    if (assignSelection == 1) cout << "Assignment     : Lloyds" << endl;
+    else if (assignSelection == 2) cout << "Assignment     : Range Search" << endl;
+    if (updateSelection == 1) cout << "Update         : PAM" << endl;
+    else if (updateSelection == 2) cout << "Update         : Mean Vector" << endl;
+
+    if (initialSelection == 1){
         initial = new RandomSelection(K, vectorArray);
-    else if (initialSelection == 2)
+    }
+    else if (initialSelection == 2){
         initial = new KMeansInit(K, vectorArray);
+    }
     else {
         cout << "ERROR in Initial" << endl;
         return -1;
@@ -91,9 +102,11 @@ int main(int args, char **argv) {
 
     // Create assign and update objects
     Assignment * assign;
-    int assignSelection = atoi(argv[4]);
-    if (assignSelection == 1)
+
+
+    if (assignSelection == 1){
         assign = new Lloyds(distance);
+    }
     else if (assignSelection == 2) {
         if (isCurves)
             assign = new RangeSearch(3, 2, vectorArray, curves, distance);
@@ -105,9 +118,10 @@ int main(int args, char **argv) {
         return -1;
     }
     Update * update;
-    int updateSelection = atoi(argv[5]);
-    if (updateSelection == 1)
+
+    if (updateSelection == 1){
         update = new PAM();
+    }
     else if (updateSelection == 2){
         if(isCurves){
             cout << "Mean Curves not implemented" << endl;
@@ -125,9 +139,12 @@ int main(int args, char **argv) {
     vector<Vector *> * old_centroids = initial->getCentroids();
     double old_centroid_distance = centroidDistance(distance, old_centroids);
 
+    cout << endl;
+
     int count = 0;
     while(count < 50){
         count++;
+        cout << "Loop #" << count << endl;
 
         // Assign points to clusters and update centroids
         initial->clearClusterItems();
@@ -149,12 +166,12 @@ int main(int args, char **argv) {
 
 
         // Print details about old and new centroids
-        for(int i=0; i<old_centroids->size(); i++) cout << old_centroids->at(i)->getVectorID() << " ";
-        cout << "    Total distance: " << old_centroid_distance << endl;
-        for(int i=0; i<old_centroids->size(); i++) cout << new_centroids->at(i)->getVectorID() << " ";
-        cout << "    Total distance: " << new_centroid_distance << endl;
-        cout << "Distance difference: " << diff << endl;
-        cout << "Distance difference percentage: " << diff_percentage << endl;
+        // for(int i=0; i<old_centroids->size(); i++) cout << old_centroids->at(i)->getVectorID() << " ";
+        cout << "Total distance of previous centroids : " << old_centroid_distance << endl;
+        // for(int i=0; i<old_centroids->size(); i++) cout << new_centroids->at(i)->getVectorID() << " ";
+        cout << "Total distance of new centroids      : " << new_centroid_distance << endl;
+        cout << "Distance difference                  : " << diff << endl;
+        cout << "Distance difference percentage       : " << diff_percentage * 100 << "%" << endl << endl;
 
 
 
@@ -186,7 +203,7 @@ int main(int args, char **argv) {
         delete old_centroids->at(i);
     }
     delete old_centroids;
-    cout << "Loop count: " << count << endl;
+    // cout << "Loop count: " << count << endl;
 
     delete initial;
     delete vectorArray;

@@ -3,11 +3,11 @@
 using namespace std;
 
 CurvesParser::CurvesParser(void) {
-    cout << "CurvesParser is being created" << endl;
+    // cout << "CurvesParser is being created" << endl;
 }
 
 CurvesParser::~CurvesParser(void) {
-    cout << "CurvesParser is being deleted" << endl;
+    // cout << "CurvesParser is being deleted" << endl;
     for (int i = 0; i < (int)(this->curves->size()); i++){
         delete this->curves->at(i);
     }

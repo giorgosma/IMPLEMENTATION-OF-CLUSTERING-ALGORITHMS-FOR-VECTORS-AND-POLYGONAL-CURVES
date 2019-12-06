@@ -11,7 +11,7 @@ LSH::LSH(int L, int TableSize, int w, int dimensionSize, int k) {
     for (int i = 0; i < L; i++) {
         (this->LhashTables[i]).push_back(new HashTable(TableSize, w, dimensionSize, k));
     }
-    cout << "LSH is being created" << endl;
+    // cout << "LSH is being created" << endl;
 }
 
 LSH::~LSH(void) {
@@ -19,7 +19,7 @@ LSH::~LSH(void) {
         delete this->LhashTables[i].at(0);
     }
     delete [] this->LhashTables;
-    cout << "LSH is being deleted" << endl;
+    // cout << "LSH is being deleted" << endl;
 }
 
 void LSH::printLSH(void) {

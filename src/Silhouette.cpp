@@ -1,7 +1,7 @@
 #include "../lib/Silhouette.h"
 
 Silhouette::Silhouette(Initialization *init, bool isCurve, bool complete) {
-    cout << "Silhouette is being created" << endl;
+    cout << "Silhouette running..." << endl;
     ofstream total;
     total.open("output/outputFile.txt", ofstream::out | ofstream::app);
 
@@ -48,7 +48,7 @@ Silhouette::Silhouette(Initialization *init, bool isCurve, bool complete) {
     }
     total << sumAvg << " ]" << endl;
     // cout << " ]" << endl << endl << sumAvg << endl << endl;
-    cout << endl << endl << sumAvg << endl << endl;
+    cout << "Average: " << sumAvg << endl << endl;
 
     if (complete) {                                                         // write all Items to output file
         for (int i = 0; i < init->getClusterSize(); i++) {
@@ -75,7 +75,7 @@ Silhouette::Silhouette(Initialization *init, bool isCurve, bool complete) {
 Silhouette::~Silhouette(void) {
     delete[] this->sigma;
     delete this->distance;
-    cout << "Silhouette is being deleted" << endl;
+    // cout << "Silhouette is being deleted" << endl;
 }
 
 double Silhouette::computeAlpha(Vector *vector) {

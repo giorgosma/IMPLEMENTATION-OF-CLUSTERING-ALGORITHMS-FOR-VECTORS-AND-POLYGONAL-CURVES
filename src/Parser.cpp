@@ -1,13 +1,13 @@
 #include "../lib/Parser.h"
 
 Parser::Parser(void) {
-    cout << "Parser is being created" << endl;
+    // cout << "Parser is being created" << endl;
     this->vectorArraySize = 0;
     this->dimensionSize = 0;
 }
 
 Parser::~Parser(void) {
-    cout << "Parser is being deleted" << endl;
+    // cout << "Parser is being deleted" << endl;
 }
 
 void Parser::parseFileInput(string fileName) {
@@ -27,8 +27,8 @@ void Parser::parseFileInput(string fileName) {
     infile.close();
     this->vectorArraySize--;
     // this->dimensionSize--;
-    cout << "Number of points: " << this->vectorArraySize << endl;
-    cout << "Dimension: " << this->dimensionSize << endl;
+    // cout << "Number of points: " << this->vectorArraySize << endl;
+    // cout << "Dimension: " << this->dimensionSize << endl;
 }
 
 string Parser::getFileItem(string str, int itemStart) {

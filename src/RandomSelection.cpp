@@ -1,7 +1,7 @@
 #include "../lib/RandomSelection.h"
 
 RandomSelection::RandomSelection(int K, VectorArray *vectorArray) : Initialization(K) {
-    cout << "RandomSelection is being created" << endl;
+    // cout << "RandomSelection is being created" << endl;
     for (int i = 0; i < this->getClusterSize(); i++) {
         unsigned seed = chrono::system_clock::now().time_since_epoch().count();
         default_random_engine generator (seed);
@@ -17,7 +17,7 @@ RandomSelection::RandomSelection(int K, VectorArray *vectorArray) : Initializati
 }
 
 RandomSelection::~RandomSelection(void) {
-    cout << "RandomSelection is being deleted" << endl;
+    // cout << "RandomSelection is being deleted" << endl;
 }
 
 // void RandomSelection::getClusterSize(void) {

@@ -1,11 +1,11 @@
 #include "../lib/Assignment.h"
 
 Assignment::Assignment(void) {    
-    cout << "Assignment is being created" << endl;
+    // cout << "Assignment is being created" << endl;
 }
 
 Assignment::~Assignment(void) {
-    cout << "Assignment is being deleted" << endl;
+    // cout << "Assignment is being deleted" << endl;
 }
 
 void Assignment::setupAssignment(Initialization * init, VectorArray * vectors) {
@@ -13,9 +13,13 @@ void Assignment::setupAssignment(Initialization * init, VectorArray * vectors) {
 }
 
 void Assignment::printClusterItems(Initialization *init) {
-    for (int i = 0; i < init->getClusterSize(); i++) {
+    cout << "Cluster Sizes: ";
+    for (int i = 0; i < init->getClusterSize()-1; i++) {
         init->getClusterItem(i)->printClusterInfo();
-    }  
+        cout << ", ";
+    }
+    init->getClusterItem(init->getClusterSize()-1)->printClusterInfo();
+    cout << endl;
 }
 
 bool Assignment::isCentroid(Vector *vector, Initialization * init) { 

@@ -1,7 +1,7 @@
 #include "../lib/RangeSearch.h"
 
 RangeSearch::RangeSearch(int L, int TableSize, int W, int dimensionSize, int k, VectorArray *vectors, Distance * distance) : Assignment() {
-    cout << "RangeSearch is being created" << endl;
+    // cout << "RangeSearch is being created" << endl;
     this->lsh = new LSH*[1];
     this->lsh[0] = new LSH(L, TableSize, W, dimensionSize, k);  
     this->isCurve = false;
@@ -11,19 +11,19 @@ RangeSearch::RangeSearch(int L, int TableSize, int W, int dimensionSize, int k, 
     for (int i = 0; i < vectors->getVectorArraySize(); i++) {
         this->lsh[0]->addItem(vectors->getVectorArrayItem(i));
         counter++;
-        if (counter == 100) {
-            cout << "ADDED " << i + 1 << " Vectors"<< endl;
-            counter = 0;
-        }
-        if (i == vectors->getVectorArraySize() - 1)
-            cout << "ADDED " << i + 1 << " Vectors"<< endl;
+        // if (counter == 100) {
+        //     cout << "ADDED " << i + 1 << " Vectors"<< endl;
+        //     counter = 0;
+        // }
+        // if (i == vectors->getVectorArraySize() - 1)
+        //     cout << "ADDED " << i + 1 << " Vectors"<< endl;
     }
 
     this->lshSize = 1;
 }
 
 RangeSearch::RangeSearch(int k, int L_grids, VectorArray *curves, vector<vector<double> *> * veCurves, Distance * distance) : Assignment() {
-    cout << "RangeSearch is being created" << endl;
+    // cout << "RangeSearch is being created" << endl;
     this->isCurve = true;
     this->distance = distance;
 
@@ -32,7 +32,7 @@ RangeSearch::RangeSearch(int k, int L_grids, VectorArray *curves, vector<vector<
     vector<vector<vector<double> *> *> * LGrids = grid->projectToGrids(veCurves);
     // this->vectorArraySize = static_cast<int>(LGrids->size());
     this->vectorArraySize = L_grids;
-    cout << "SIZE " << this->vectorArraySize << endl;
+    // cout << "SIZE " << this->vectorArraySize << endl;
     VectorArray **vectorArray = new VectorArray*[this->vectorArraySize];
     this->lsh = new LSH*[LGrids->size()];
     for (int i = 0; i < (int)(LGrids->size()); i++) {
@@ -62,7 +62,7 @@ RangeSearch::RangeSearch(int k, int L_grids, VectorArray *curves, vector<vector<
 }
 
 RangeSearch::~RangeSearch(void) {
-    cout << "RangeSearch is being deleted" << endl;
+    // cout << "RangeSearch is being deleted" << endl;
     if (this->isCurve) {
         for (int i = 0; i < this->vectorArraySize; i++) {
             delete this->vectorArray[i];
@@ -115,20 +115,21 @@ void RangeSearch::setupAssignment(Initialization * init, VectorArray * vectors) 
         }
     } 
 
-    //
-    int xIndex;
-    for (int i = 0; i < umapSize; i++) {
-        cout << "- HT " << i << endl;
-        for (auto x : umap[i].umap) {
-            cout << "\t" << x.first << endl;
-            xIndex = x.first;
-            cout << "\t " << xIndex << " SIZE " << (((umap[i]).umap)[xIndex]).size() << endl;
-            for (int j = 0; j < (int)(x.second).size(); j++) {
-                cout << "\t\t S " << (x.second[j])->getCentroid()->getVectorID() << endl;
-                // cout << "\t\t I " << ((((umap[i]).umap)[xIndex])[j])->getCentroid()->getVectorID() << endl;
-            }
-        } 
-    }
+    // int xIndex;
+    // for (int i = 0; i < umapSize; i++) {
+    //     cout << "- HT " << i << endl;
+    //     for (auto x : umap[i].umap) {
+    //         cout << "\t" << x.first << endl;
+    //         xIndex = x.first;
+    //         cout << "\t " << xIndex << " SIZE " << (((umap[i]).umap)[xIndex]).size() << endl;
+    //         for (int j = 0; j < (int)(x.second).size(); j++) {
+    //             cout << "\t\t S " << (x.second[j])->getCentroid()->getVectorID() << endl;
+    //             // cout << "\t\t I " << ((((umap[i]).umap)[xIndex])[j])->getCentroid()->getVectorID() << endl;
+    //         }
+    //     } 
+    // }
+
+
     // for (auto x : umap) {
     //     cout << x.first << " -->" << x.second.size() << endl; 
     //     for (int i = 0; i < x.second.size(); i++)
@@ -181,7 +182,7 @@ void RangeSearch::setupAssignment(Initialization * init, VectorArray * vectors) 
   	            //     cout << "\t\t" << (*it)->getCentroid()->getVectorID() << endl;
                 // } 
                 if (umapClusters.size() == 0) {
-                    cout << "Lloyds for " << vector->getVectorID() << endl;
+                    // cout << "Lloyds for " << vector->getVectorID() << endl;
                     LloydsVectorArray.push_back(vector);
                 }
                 else {
@@ -193,9 +194,9 @@ void RangeSearch::setupAssignment(Initialization * init, VectorArray * vectors) 
         }
         this->setupAssignment(init, LloydsVectorArray);
     }
-    for (int i = 0; i < init->getClusterSize(); i++) {
-        init->getClusterItem(i)->printClusterInfo();
-    }
+    // for (int i = 0; i < init->getClusterSize(); i++) {
+    //     init->getClusterItem(i)->printClusterInfo();
+    // }
     delete[] umap;
 }
 
@@ -229,7 +230,7 @@ void RangeSearch::setupCurvesAssignment(Initialization * init, VectorArray * vec
     for (int i = 0; i < this->lshSize; i++) {
         vectorArray[i] = new VectorArray((int)(LGridsCentroids->at(i)->size()));
         // for (int j = 0; j < (int)(LGridsCentroids->at(i)->size()); j++) {
-        cout << "vectorArray [ " << i << " ] Size " << vectorArray[i]->getVectorArraySize() << endl;
+        // cout << "vectorArray [ " << i << " ] Size " << vectorArray[i]->getVectorArraySize() << endl;
         for (int j = 0; j < vectorArray[i]->getVectorArraySize(); j++) {
             Vector *vector = new Vector(to_string(j), max(this->vectorArray[i]->getVectorArrayItem(0)->getSize() , (int)(LGridsCentroids->at(i)->at(j)->size())));
             double *dimension = new double[max(this->vectorArray[i]->getVectorArrayItem(0)->getSize() , (int)(LGridsCentroids->at(i)->at(j)->size()))];
@@ -244,7 +245,7 @@ void RangeSearch::setupCurvesAssignment(Initialization * init, VectorArray * vec
             vectorArray[i]->addVectorToArray(vector, j);
             // this->lsh[i]->addItem(vectorArray[i]->getVectorArrayItem(j));
             // (this->lsh[i])->addG(vectorArray[i]->getVectorArrayItem(j)); 
-            cout << "Centroid Dimension " << vector->getSize() << " Other Dimension " << this->vectorArray[i]->getVectorArrayItem(0)->getSize() << " " << this->vectorArray[i]->getVectorArrayItem(3)->getSize()<< endl;
+            // cout << "Centroid Dimension " << vector->getSize() << " Other Dimension " << this->vectorArray[i]->getVectorArrayItem(0)->getSize() << " " << this->vectorArray[i]->getVectorArrayItem(3)->getSize()<< endl;
             ((this->lsh)[i])->addG(vector); 
             delete LGridsCentroids->at(i)->at(j);
         }
@@ -310,7 +311,7 @@ void RangeSearch::setupCurvesAssignment(Initialization * init, VectorArray * vec
             }
         }
         if (umapClusters.size() == 0) {
-            cout << "Lloyds for " << vectors->getVectorArrayItem(j)->getVectorID() << endl;
+            // cout << "Lloyds for " << vectors->getVectorArrayItem(j)->getVectorID() << endl;
             LloydsVectorArray.push_back(vectors->getVectorArrayItem(j));
         }
         else {
@@ -321,9 +322,9 @@ void RangeSearch::setupCurvesAssignment(Initialization * init, VectorArray * vec
     }
     this->setupAssignment(init, LloydsVectorArray);
 
-    for (int i = 0; i < init->getClusterSize(); i++) {
-        init->getClusterItem(i)->printClusterInfo();
-    }
+    // for (int i = 0; i < init->getClusterSize(); i++) {
+    //     init->getClusterItem(i)->printClusterInfo();
+    // }
 
     for (int i = 0; i < vectorArraySize; i++) {
         delete vectorArray[i];
@@ -359,7 +360,7 @@ Cluster * RangeSearch::getMinCluster(set<Cluster *> setOfClusters, Vector * vect
 void RangeSearch::setupAssignment(Initialization * init, vector<Vector *> vectors) {
 
     int initCounter = 0;
-    cout << "VectorArray = " << vectors.size() << " ClusterSize " << init->getClusterSize() << endl;
+    // cout << "VectorArray = " << vectors.size() << " ClusterSize " << init->getClusterSize() << endl;
     for (int i = 0; i < (int)vectors.size(); i++) {       // for each vector item
         // if (this->isCentroid(vectors->getVectorArrayItem(i), init)){
         //     // cout << "Vector " << vectors->getVectorArrayItem(i)->getVectorID() << endl;
@@ -376,7 +377,7 @@ void RangeSearch::setupAssignment(Initialization * init, vector<Vector *> vector
         }
                                                                  // store item to the minDist centroid - cluster
         init->getClusterItem(indexCluster)->addItemToCluster(vectors[i]);
-        cout << "Added " << vectors[i]->getVectorID() << endl;
+        // cout << "Added " << vectors[i]->getVectorID() << endl;
         initCounter++;
         // if (i > 10)
         //     break;

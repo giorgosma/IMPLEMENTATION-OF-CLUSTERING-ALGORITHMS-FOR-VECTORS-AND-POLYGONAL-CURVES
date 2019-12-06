@@ -1,7 +1,7 @@
 #include "../lib/KMeansInit.h"
 
 KMeansInit::KMeansInit(int K, VectorArray *vectorArray) : Initialization(K) {
-    cout << "KMeansInit is being created" << endl;
+    // cout << "KMeansInit is being created" << endl;
 
     // points-vector = vector with all points
     // centroids-vector = []
@@ -129,9 +129,9 @@ KMeansInit::KMeansInit(int K, VectorArray *vectorArray) : Initialization(K) {
         this->getClusterItem(i)->initCluster(centroids->at(i)->getVectorID(), centroids->at(i)->getVectorDimension(), centroids->at(i)->getVectorCoordinates());
     }
 
-    for(int i=0; i<this->getClusterSize(); i++){
-        this->getClusterItem(i)->printClusterInfo();
-    }
+    // for(int i=0; i<this->getClusterSize(); i++){
+    //     this->getClusterItem(i)->printClusterInfo();
+    // }
 
     delete centroids;
     delete points;
@@ -139,7 +139,7 @@ KMeansInit::KMeansInit(int K, VectorArray *vectorArray) : Initialization(K) {
 }
 
 KMeansInit::KMeansInit(int K, VectorArray *vectorArray, Distance * distanceCalculator) : Initialization(K) {
-    cout << "KMeansInit is being created" << endl;
+    // cout << "KMeansInit is being created" << endl;
 
     // points-vector = vector with all points
     // centroids-vector = []
@@ -265,16 +265,16 @@ KMeansInit::KMeansInit(int K, VectorArray *vectorArray, Distance * distanceCalcu
         this->getClusterItem(i)->initCluster(centroids->at(i)->getVectorID(), centroids->at(i)->getVectorDimension(), centroids->at(i)->getVectorCoordinates());
     }
 
-    for(int i=0; i<this->getClusterSize(); i++){
-        this->getClusterItem(i)->printClusterInfo();
-    }
+    // for(int i=0; i<this->getClusterSize(); i++){
+    //     this->getClusterItem(i)->printClusterInfo();
+    // }
 
     delete centroids;
     delete points;
 }
 
 KMeansInit::~KMeansInit(void) {
-    cout << "KMeansInit is being deleted" << endl;
+    // cout << "KMeansInit is being deleted" << endl;
 }
 
 // void KMeansInit::getClusterSize(void) {

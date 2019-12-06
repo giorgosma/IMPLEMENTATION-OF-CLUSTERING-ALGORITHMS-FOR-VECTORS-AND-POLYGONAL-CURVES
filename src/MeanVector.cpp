@@ -1,11 +1,11 @@
 #include "../lib/MeanVector.h"
 
 MeanVector::MeanVector(void) : Update() {    
-    cout << "MeanVector is being created" << endl;
+    // cout << "MeanVector is being created" << endl;
 }
 
 MeanVector::~MeanVector(void) {
-    cout << "MeanVector is being deleted" << endl;
+    // cout << "MeanVector is being deleted" << endl;
 }
 
 void MeanVector::update(Initialization * init){

@@ -3,11 +3,11 @@
 VectorArray::VectorArray(int size) {
     this->size = size;
     this->vectorArray = new Vector*[size];
-    cout << "VectorArray is being created" << endl;
+    // cout << "VectorArray is being created" << endl;
 }
 
 VectorArray::~VectorArray(void) {
-    cout << "VectorArray is being deleted" << endl;
+    // cout << "VectorArray is being deleted" << endl;
     for (int i = 0; i < this->size; i++)
         delete this->vectorArray[i];
     delete[] this->vectorArray;

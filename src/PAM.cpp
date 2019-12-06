@@ -1,11 +1,11 @@
 #include "../lib/PAM.h"
 
 PAM::PAM(void) : Update() {    
-    cout << "PAM is being created" << endl;
+    // cout << "PAM is being created" << endl;
 }
 
 PAM::~PAM(void) {
-    cout << "PAM is being deleted" << endl;
+    // cout << "PAM is being deleted" << endl;
 }
 
 void PAM::update(Initialization * init){

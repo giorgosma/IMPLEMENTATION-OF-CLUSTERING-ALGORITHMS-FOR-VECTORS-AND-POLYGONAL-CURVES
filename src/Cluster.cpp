@@ -1,13 +1,13 @@
 #include "../lib/Cluster.h"
 
 Cluster::Cluster(void) {    
-    cout << "Cluster is being created" << endl;
+    // cout << "Cluster is being created" << endl;
     this->centroid = NULL;
 }
 
 Cluster::~Cluster(void) {
     // delete centroid;
-    cout << "Cluster is being deleted" << endl;
+    // cout << "Cluster is being deleted" << endl;
     delete this->centroid;
 }
 
@@ -25,9 +25,9 @@ void Cluster::updateCentroid(string id, int size, double * dimension){
 }
 
 void Cluster::printClusterInfo(void) {
-    cout << "Cluster Centroid: " << this->centroid->getVectorID() << endl;
+    // cout << "Cluster Centroid: " << this->centroid->getVectorID() << endl;
     // this->centroid->printVector();
-    cout << "   Cluster Size:" << this->clusterItems.size() << endl;
+    cout << this->clusterItems.size();
 }
 
 Vector * Cluster::getCentroid(void){
