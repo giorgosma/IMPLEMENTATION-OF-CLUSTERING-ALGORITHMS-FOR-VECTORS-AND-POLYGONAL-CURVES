@@ -15,6 +15,7 @@
 #include "./lib/PAM.h"
 #include "./lib/MeanVector.h"
 #include "./lib/Silhouette.h"
+#include "./lib/RangeSearch.h"
 
 using namespace std;
 using namespace std::chrono;
@@ -39,7 +40,8 @@ bool whatInputFile(string fileName) {
     else
         return false;
 }
-
+// 1         2   3    4      5      6
+// inputFile K init assign update complete
 int main(int args, char **argv) {
     //curves
     vector<vector<double> *> * curves = NULL;
@@ -56,13 +58,15 @@ int main(int args, char **argv) {
         Parser parser;
         parser.parseFileInput(argv[1]);
         vectorArray = parser.readFileInput(argv[1]);
-        
     }
     // Parser parser;
     // parser.parseFileInput(argv[1]);
     // VectorArray *vectorArray = parser.readFileInput(argv[1]);
 
-    int K = 5;
+    int K = atoi(argv[2]);
+    bool complete = false;
+    if (atoi(argv[6]) == 1)
+        complete = true;
 
     // Create distance calculating object
     Distance * distance;
@@ -74,11 +78,43 @@ int main(int args, char **argv) {
     }
 
     // Initialize cluster centroids with RandomSelection/KMeans
-    Initialization * initial = new KMeansInit(K, vectorArray);
+    Initialization * initial;
+    int initialSelection = atoi(argv[3]);
+    if (initialSelection == 1)
+        initial = new RandomSelection(K, vectorArray);
+    else if (initialSelection == 2)
+        initial = new KMeansInit(K, vectorArray);
+    else {
+        cout << "ERROR in Initial" << endl;
+        return -1;
+    }
 
     // Create assign and update objects
-    Assignment * assign = new Lloyds(isCurves);
-    Update * update = new PAM();
+    Assignment * assign;
+    int assignSelection = atoi(argv[4]);
+    if (assignSelection == 1)
+        assign = new Lloyds(isCurves);
+    else if (assignSelection == 2) {
+        if (isCurves)
+            assign = new RangeSearch(3, 2, vectorArray, curves);
+        else 
+            assign = new RangeSearch(3, vectorArray->getVectorArraySize() / 8, 4000, vectorArray->getVectorArrayItem(0)->getVectorDimension(), 4, vectorArray);
+    }
+    else {
+        cout << "ERROR in Assign" << endl;
+        return -1;
+    }
+    Update * update;
+    int updateSelection = atoi(argv[5]);
+    if (updateSelection == 1)
+        update = new PAM();
+    else if (updateSelection == 2) 
+        update = new MeanVector();
+    else {
+        cout << "ERROR in Update" << endl;
+        return -1;
+    }
+
 
     // Calculate distance between the initial centroids
     vector<Vector *> * old_centroids = initial->getCentroids();
@@ -138,7 +174,7 @@ int main(int args, char **argv) {
         }
     }
     // call Silhouette
-    Silhouette silhouette(initial, false, false);
+    Silhouette silhouette(initial, isCurves, complete);
 
     // Delete old centroids
     for(int i=0; i<old_centroids->size(); i++){
