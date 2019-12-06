@@ -93,7 +93,7 @@ int main(int args, char **argv) {
     Assignment * assign;
     int assignSelection = atoi(argv[4]);
     if (assignSelection == 1)
-        assign = new Lloyds(isCurves);
+        assign = new Lloyds(distance);
     else if (assignSelection == 2) {
         if (isCurves)
             assign = new RangeSearch(3, 2, vectorArray, curves, distance);

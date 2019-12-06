@@ -12,9 +12,9 @@ using namespace std::chrono;
 
 class Lloyds : public Assignment{
     private:
-        bool isCurve;
+        Distance * distance;
     public:
-        Lloyds(bool isCurve);
+        Lloyds(Distance * distance);
         ~Lloyds(void);
         void setupAssignment(Initialization * init, VectorArray * vectors);
 };
