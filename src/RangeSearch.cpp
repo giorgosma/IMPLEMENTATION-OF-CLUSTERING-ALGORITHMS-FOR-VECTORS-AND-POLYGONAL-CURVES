@@ -29,12 +29,16 @@ RangeSearch::RangeSearch(int k, int L_grids, VectorArray *curves, vector<vector<
     this->lshSize = L_grids;
     vector<vector<vector<double> *> *> * LGrids = grid->projectToGrids(veCurves);
     // this->vectorArraySize = static_cast<int>(LGrids->size());
+    // cout << "veCurves->size() " << veCurves->at(0)->size() <<endl;
     this->vectorArraySize = L_grids;
     cout << "SIZE " << this->vectorArraySize << endl;
     VectorArray **vectorArray = new VectorArray*[this->vectorArraySize];
+    // cout << "LGrids->size() " << LGrids->size() <<endl; 
     this->lsh = new LSH*[LGrids->size()];
     for (int i = 0; i < (int)(LGrids->size()); i++) {
+        // cout << "LGrids->at(i)->size() " << LGrids->at(i)->size() << endl;
         vectorArray[i] = new VectorArray(LGrids->at(i)->size());
+        // cout << "Dimension " << (int)(LGrids->at(i)->at(0)->size()) << endl;
         this->lsh[i] = new LSH(1, (LGrids->at(i)->size())/8, 4000, (int)(LGrids->at(i)->at(0)->size()), k);
         for (int j = 0; j < (int)(LGrids->at(i)->size()); j++) {
             Vector *vector = new Vector(to_string(j), LGrids->at(i)->at(j)->size());

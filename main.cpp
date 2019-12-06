@@ -44,13 +44,14 @@ bool whatInputFile(string fileName) {
 // inputFile K init assign update complete
 int main(int args, char **argv) {
     //curves
-    vector<vector<double> *> * curves = NULL;
+    CurvesParser parser;
+    vector<vector<double> *> * curves;
     VectorArray *vectorArray = NULL;
     //vectors
 
     bool isCurves = whatInputFile(argv[1]);
     if (isCurves) {
-        CurvesParser parser;
+        // CurvesParser parser;
         curves = parser.parseFile(argv[1]);
         vectorArray = parser.storeCurvesIntoVectorArray(curves);
     }
@@ -96,7 +97,7 @@ int main(int args, char **argv) {
         assign = new Lloyds(isCurves);
     else if (assignSelection == 2) {
         if (isCurves)
-            assign = new RangeSearch(3, 2, vectorArray, curves);
+            assign = new RangeSearch(4, 4, vectorArray, curves);
         else 
             assign = new RangeSearch(3, vectorArray->getVectorArraySize() / 8, 4000, vectorArray->getVectorArrayItem(0)->getVectorDimension(), 4, vectorArray);
     }
@@ -121,7 +122,7 @@ int main(int args, char **argv) {
     double old_centroid_distance = centroidDistance(distance, old_centroids);
 
     int count = 0;
-    while(count < 50){
+    while(count < 5){
         count++;
 
         // Assign points to clusters and update centroids
