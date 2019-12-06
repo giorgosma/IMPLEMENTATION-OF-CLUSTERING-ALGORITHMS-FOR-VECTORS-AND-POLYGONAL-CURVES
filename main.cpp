@@ -13,6 +13,7 @@
 #include "./lib/CurvesParser.h"
 #include "./lib/Update.h"
 #include "./lib/PAM.h"
+#include "./lib/MeanVector.h"
 
 using namespace std;
 using namespace std::chrono;
@@ -42,21 +43,21 @@ int main(int args, char **argv) {
 
     // Create assign and update objects
     Assignment * assign = new Lloyds();
-    Update * update = new PAM();
+    Update * update = new MeanVector();
 
     // Calculate distance between the initial centroids
     vector<Vector *> * old_centroids = initial->getCentroids();
     double old_centroid_distance = centroidDistance(manhattan, old_centroids);
 
     int count = 0;
-    while(count < 50){
+    while(count < 2){
         count++;
 
         // Assign points to clusters and update centroids
         initial->clearClusterItems();
         assign->setupAssignment(initial, vectorArray);
         assign->printClusterItems(initial);
-        update->update(initial);
+        update->update(initial, manhattan);
 
         // Calculate distance between the newly selected centroids
         vector<Vector *> * new_centroids = initial->getCentroids();
