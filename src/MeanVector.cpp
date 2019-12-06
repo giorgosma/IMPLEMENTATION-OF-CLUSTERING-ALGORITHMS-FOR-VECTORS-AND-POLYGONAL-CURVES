@@ -74,5 +74,5 @@ void MeanVector::update(Initialization * init, Distance * distance){
         init->getClusterItem(i)->updateCentroid(to_string(-1 * i), size, dimension);
     }
 
-    delete dimension;
+    delete[] dimension;
 }
