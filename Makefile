@@ -1,8 +1,8 @@
 CC = g++
 CFLAGS  = -g -Wall -std=c++11
-SOURCE	= ./src/VectorArray.cpp ./src/Vector.cpp ./src/Parser.cpp ./src/Distance.cpp ./src/ExactNN.cpp ./src/Manhattan.cpp ./src/LSH.cpp ./src/HashTable.cpp ./src/HashFunction.cpp ./src/HyperCube.cpp ./src/Grids.cpp ./src/DTW.cpp ./src/CurvesParser.cpp ./src/Initialization.cpp ./src/RandomSelection.cpp ./src/Cluster.cpp main.cpp ./src/KMeansInit.cpp ./src/Assignment.cpp ./src/Lloyds.cpp ./src/Update.cpp ./src/PAM.cpp ./src/RangeSearch.cpp ./src/MeanVector.cpp
-HEADER  = ./lib/VectorArray.h ./lib/Vector.h ./lib/Parser.h ./lib/Distance.h ./lib/ExactNN.h ./lib/Manhattan.h ./lib/LSH.h ./lib/HashTable.h ./lib/HashFunction.h ./lib/HyperCube.h ./lib/Grids.h ./lib/DTW.h ./lib/CurvesParser.h ./lib/Initialization.h ./lib/RandomSelection.h ./lib/Cluster.h ./lib/KMeansInit.h ./lib/Assignment.h ./lib/Lloyds.h ./lib/Update.h ./lib/PAM.h ./lib/RangeSearch.h ./lib/MeanVector.h
-OBJS 	= VectorArray.o Vector.o Parser.o Distance.o ExactNN.o Manhattan.o LSH.o HashTable.o HashFunction.o HyperCube.o Grids.o DTW.o CurvesParser.o Initialization.o RandomSelection.o Cluster.o main.o KMeansInit.o Assignment.o Lloyds.o Update.o PAM.o RangeSearch.o MeanVector.o
+SOURCE	= ./src/VectorArray.cpp ./src/Vector.cpp ./src/Parser.cpp ./src/Distance.cpp ./src/ExactNN.cpp ./src/Manhattan.cpp ./src/LSH.cpp ./src/HashTable.cpp ./src/HashFunction.cpp ./src/HyperCube.cpp ./src/Grids.cpp ./src/DTW.cpp ./src/CurvesParser.cpp ./src/Initialization.cpp ./src/RandomSelection.cpp ./src/Cluster.cpp main.cpp ./src/KMeansInit.cpp ./src/Assignment.cpp ./src/Lloyds.cpp ./src/Update.cpp ./src/PAM.cpp ./src/RangeSearch.cpp ./src/Silhouette.cpp ./src/MeanVector.cpp
+HEADER  = ./lib/VectorArray.h ./lib/Vector.h ./lib/Parser.h ./lib/Distance.h ./lib/ExactNN.h ./lib/Manhattan.h ./lib/LSH.h ./lib/HashTable.h ./lib/HashFunction.h ./lib/HyperCube.h ./lib/Grids.h ./lib/DTW.h ./lib/CurvesParser.h ./lib/Initialization.h ./lib/RandomSelection.h ./lib/Cluster.h ./lib/KMeansInit.h ./lib/Assignment.h ./lib/Lloyds.h ./lib/Update.h ./lib/PAM.h ./lib/RangeSearch.h ./lib/Silhouette.h ./lib/MeanVector.h
+OBJS 	= VectorArray.o Vector.o Parser.o Distance.o ExactNN.o Manhattan.o LSH.o HashTable.o HashFunction.o HyperCube.o Grids.o DTW.o CurvesParser.o Initialization.o RandomSelection.o Cluster.o main.o KMeansInit.o Assignment.o Lloyds.o Update.o PAM.o RangeSearch.o Silhouette.o MeanVector.o
 # typing 'make' will invoke the first target entry in the file 
 # (in this case the default target entry)
 # you can name this target entry anything, but "default" or "all"
@@ -86,6 +86,9 @@ Lloyds.o:	./src/Lloyds.cpp $(HEADER)
 
 RangeSearch.o:	./src/RangeSearch.cpp $(HEADER)
 	$(CC) $(CFLAGS) -c ./src/RangeSearch.cpp
+
+Silhouette.o:	./src/Silhouette.cpp $(HEADER)
+	$(CC) $(CFLAGS) -c ./src/Silhouette.cpp
 
 
 count:

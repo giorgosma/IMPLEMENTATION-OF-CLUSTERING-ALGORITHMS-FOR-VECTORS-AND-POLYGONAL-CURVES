@@ -14,6 +14,7 @@
 #include "./lib/Update.h"
 #include "./lib/PAM.h"
 #include "./lib/MeanVector.h"
+#include "./lib/Silhouette.h"
 
 using namespace std;
 using namespace std::chrono;
@@ -26,42 +27,76 @@ double centroidDistance(Distance * calculator, vector<Vector *> * centroids){
     return dist;
 }
 
-int main(int args, char **argv) {
+bool whatInputFile(string fileName) {
+    string str;
+    ifstream infile;
+    infile.open(fileName);
+    getline(infile, str);
+    str = str.substr(0, 6);
+    infile.close();
+    if (str == "curves")
+        return true;
+    else
+        return false;
+}
 
-    // Parse input file
-    Parser parser;
-    parser.parseFileInput(argv[1]);
-    VectorArray *vectorArray = parser.readFileInput(argv[1]);
+int main(int args, char **argv) {
+    //curves
+    vector<vector<double> *> * curves = NULL;
+    VectorArray *vectorArray = NULL;
+    //vectors
+
+    bool isCurves = whatInputFile(argv[1]);
+    if (isCurves) {
+        CurvesParser parser;
+        curves = parser.parseFile(argv[1]);
+        vectorArray = parser.storeCurvesIntoVectorArray(curves);
+    }
+    else {
+        Parser parser;
+        parser.parseFileInput(argv[1]);
+        vectorArray = parser.readFileInput(argv[1]);
+        
+    }
+    // Parser parser;
+    // parser.parseFileInput(argv[1]);
+    // VectorArray *vectorArray = parser.readFileInput(argv[1]);
 
     int K = 5;
 
     // Create distance calculating object
-    Distance * manhattan = new Manhattan();
+    Distance * distance;
+    if(isCurves){
+        distance = new DTW();
+    }
+    else{
+        distance = new Manhattan();
+    }
 
     // Initialize cluster centroids with RandomSelection/KMeans
-    Initialization * initial = new RandomSelection(K, vectorArray);
+    Initialization * initial = new KMeansInit(K, vectorArray);
 
     // Create assign and update objects
-    Assignment * assign = new Lloyds();
-    Update * update = new MeanVector();
+    Assignment * assign = new Lloyds(isCurves);
+    Update * update = new PAM();
 
     // Calculate distance between the initial centroids
     vector<Vector *> * old_centroids = initial->getCentroids();
-    double old_centroid_distance = centroidDistance(manhattan, old_centroids);
+    double old_centroid_distance = centroidDistance(distance, old_centroids);
 
     int count = 0;
-    while(count < 2){
+    while(count < 50){
         count++;
 
         // Assign points to clusters and update centroids
         initial->clearClusterItems();
         assign->setupAssignment(initial, vectorArray);
         assign->printClusterItems(initial);
-        update->update(initial, manhattan);
+        update->update(initial, distance);
 
         // Calculate distance between the newly selected centroids
         vector<Vector *> * new_centroids = initial->getCentroids();
-        double new_centroid_distance = centroidDistance(manhattan, new_centroids);
+        double new_centroid_distance = centroidDistance(distance, new_centroids);
 
         // Check if centroid distance is within 0.1% if previous value
         bool terminateLoop;
@@ -102,6 +137,8 @@ int main(int args, char **argv) {
             break;
         }
     }
+    // call Silhouette
+    Silhouette silhouette(initial, false, false);
 
     // Delete old centroids
     for(int i=0; i<old_centroids->size(); i++){
@@ -112,7 +149,7 @@ int main(int args, char **argv) {
 
     delete initial;
     delete vectorArray;
-    delete manhattan;
+    delete distance;
     delete assign;
     delete update;
 }

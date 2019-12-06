@@ -1,6 +1,7 @@
 #include "../lib/Lloyds.h"
 
-Lloyds::Lloyds(void) : Assignment() {
+Lloyds::Lloyds(bool isCurve) : Assignment() {
+    this->isCurve = isCurve;
     cout << "Lloyds is being created" << endl;
 }
 
@@ -9,7 +10,11 @@ Lloyds::~Lloyds(void) {
 }
 
 void Lloyds::setupAssignment(Initialization * init, VectorArray * vectors) {
-    Distance * distance = new Manhattan();
+    Distance * distance;
+    if (this->isCurve)
+        distance = new DTW();
+    else 
+        distance = new Manhattan();
     int initCounter = 0;
     cout << "VectorArray = " << vectors->getVectorArraySize() << " ClusterSize " << init->getClusterSize() << endl;
     for (int i = 0; i < vectors->getVectorArraySize(); i++) {       // for each vector item
