@@ -3,7 +3,7 @@
 Silhouette::Silhouette(Initialization *init, bool isCurve, bool complete) {
     cout << "Silhouette is being created" << endl;
     ofstream total;
-    total.open("Out/outputFile.txt", ofstream::out | ofstream::app);
+    total.open("output/outputFile.txt", ofstream::out | ofstream::app);
 
     double *avgSigma = new double[init->getClusterSize()]();
     double sumAvg = 0;

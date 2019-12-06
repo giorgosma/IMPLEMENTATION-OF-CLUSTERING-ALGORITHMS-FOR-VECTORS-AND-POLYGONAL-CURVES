@@ -1,0 +1,12 @@
+CLUSTER-1 { size: 95, item261 }
+CLUSTER-2 { size: 91, item69 }
+CLUSTER-3 { size: 87, item482 }
+CLUSTER-4 { size: 92, item312 }
+CLUSTER-5 { size: 91, item147 }
+Silhouette: [ 0.906414 , 0.901285 , 0.904028 , 0.900148 , 0.910051 , 0.904397 ]
+CLUSTER-1 { size: 91, 0 }
+CLUSTER-2 { size: 91, -1 }
+CLUSTER-3 { size: 87, -2 }
+CLUSTER-4 { size: 95, -3 }
+CLUSTER-5 { size: 92, -4 }
+Silhouette: [ 0.910051 , 0.901285 , 0.903961 , 0.906408 , 0.900148 , 0.904383 ]
