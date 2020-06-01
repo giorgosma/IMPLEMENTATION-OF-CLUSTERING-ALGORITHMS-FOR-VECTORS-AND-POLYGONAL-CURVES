@@ -6,7 +6,7 @@ Description:
     - Polygonal curves metric is Dynamic Time Warping (DTW)
 2. Implementation of hashing and search algorithms for vectors and polygonal curves
 ------------------------
-implementation details:
+Implementation details:
 1. Clustering:
     - Initialization:
         - Random selection of K points / K curves
