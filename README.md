@@ -4,12 +4,11 @@ Description:
 1. Implementation of clustering algorithms for vectors and polygonal curves
     - Vectors metric is L1 (Manhattan)
     - Polygonal curves metric is Dynamic Time Warping (DTW)
-2. Implementation of LSH algorithms for vectors and polygonal curves
-    - Vectors metric is L1 (Manhattan)
-    - Polygonal curves metric is Dynamic Time Warping (DTW)
+2. Implementation of hashing and search algorithms for vectors and polygonal curves
 ------------------------
+implementation details:
 1. Clustering:
-    - Initialization
+    - Initialization:
         - Random selection of K points / K curves
         - K-means++
     - Assignment:
@@ -18,4 +17,9 @@ Description:
     - Update:
         - Partitioning Around Medoids (PAM) 'a la Lloyds
         - Compute Mean Vector
-1. LSH:
+2. Hashing and Search:
+    - Vectors
+        - LSH 
+        - random projection to Hypercube
+    - Curves
+        - display curves into L grid curves and convert them to vectors
