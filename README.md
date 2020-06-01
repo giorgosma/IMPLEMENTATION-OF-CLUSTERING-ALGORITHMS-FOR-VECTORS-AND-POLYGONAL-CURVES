@@ -1,12 +1,12 @@
 # IMPLEMENTATION OF CLUSTERING ALGORITHMS FOR VECTORS AND POLYGONAL CURVES
 
-##Description:
+## Description:
 1. Implementation of clustering algorithms for vectors and polygonal curves
     - Vectors metric is L1 (Manhattan)
     - Polygonal curves metric is Dynamic Time Warping (DTW)
 2. Implementation of hashing and search algorithms for vectors and polygonal curves
 ------------------------
-##Implementation details:
+## Implementation details:
 1. Clustering:
     - Initialization:
         - Random selection of K points / K curves
